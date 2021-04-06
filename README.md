@@ -50,7 +50,7 @@ ifcSQL is a database-schema for storing IFC-based models including the IFC data 
 
 Databases are able to store informations rulesafe in a single place with access for multiple users.
 With ifcSQL it is possible to store many models in a single database and can be queried and modified all at once.
-Like a online-store you are able to manage everthing in one single place.
+Like an online-store you are able to manage everthing in one single place.
 An other advantage is the possibility, to modify parts of the data without saving the whole data.
 
 The difference between files and a database are like the comparison between Luggage and Wardrobe:<BR/><BR/>
@@ -1301,7 +1301,7 @@ The [IFC#](https://github.com/IfcSharp)-API was made with ifcSQL.
 Another aspect is the possibility of directly interacting with a modeling-tool, that can base on SQL too (e.g. Enterprise Archtitect).
 
 ### 6.2 Single Source Container
-ifcSQL enables to store mdoels single source container. If you want to query or modefiy your models, you can do in one step over one database, not with a long list of files (if they are not archived). 
+ifcSQL enables to store models in a single source container. If you want to query or modefiy your models, you can do in one step over one database, not with a long list of files (if they are not archived). 
 
 ### 6.3 Building Parts Library
 ifcSQL enables the possibility to store common model parts only one time in the same database, so that all models can access to the same bulding-parts in the same database.
