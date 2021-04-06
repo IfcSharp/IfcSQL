@@ -105,6 +105,7 @@ public partial class UserProjectAssignment_Row : RowBase{
  
 public partial class cp_Schema:SchemaBase{// -------------------------------------------------------------------
 public TableBase Project=new RowList<ifcProject.Project_Row>();
+public TableBase UserProjectAssignment=new RowList<ifcUser.UserProjectAssignment_Row>();
 }// of cp_Schema // -------------------------------------------------------------------
  
 public partial class ifcProject_Schema:SchemaBase{// -------------------------------------------------------------------
