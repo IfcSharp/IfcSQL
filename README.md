@@ -1301,7 +1301,7 @@ The [IFC#](https://github.com/IfcSharp)-API was made with ifcSQL.
 Another aspect is the possibility of directly interacting with a modeling-tool, that can base on SQL too (e.g. Enterprise Archtitect).
 
 ### 6.2 Single Source Container
-ifcSQL enables to store mdoels single source container. If you want to query or modefiy your models, you can do in one step over one database, not with a long list of file (if they are not archived). 
+ifcSQL enables to store mdoels single source container. If you want to query or modefiy your models, you can do in one step over one database, not with a long list of files (if they are not archived). 
 
 ### 6.3 Building Parts Library
 ifcSQL enables the possibility to store common model parts only one time in the same database, so that all models can access to the same bulding-parts in the same database.
