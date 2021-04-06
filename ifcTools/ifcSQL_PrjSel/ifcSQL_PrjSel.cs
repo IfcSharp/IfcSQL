@@ -49,12 +49,17 @@ public       XTreeView(){PrjContextMenu.MenuItems.Add(new MenuItem("Select proje
                         }
 protected override void OnDoubleClick(EventArgs e) {base.OnDoubleClick(e);SelPrj(this.SelectedNode);}
 
+
 public void SelPrj(TreeNode tn){if (tn.Tag is ifcSQL.ifcProject.Project_Row)
                                    {ifcSQL.ifcProject.Project_Row pr=(ifcSQL.ifcProject.Project_Row)tn.Tag;
-                                    ifcSQLin.ExecuteNonQuery(sql:"[app].[SelectProject] "+pr.ProjectId,DoOpenAndClose:true);
-                                    Application.Exit();
+                                    SelPrj(pr.ProjectId);
                                    }
                                } 
+
+public static void SelPrj(int ProjectId){ifcSQLin.ExecuteNonQuery(sql:"[app].[SelectProject] "+ProjectId,DoOpenAndClose:true);
+                                         Application.Exit();
+                                        } 
+
 public void AssignPrj(TreeNode tn){if (tn.Tag is ifcSQL.ifcProject.ProjectGroup_Row)
                                      {ifcSQL.ifcProject.ProjectGroup_Row gr=(ifcSQL.ifcProject.ProjectGroup_Row)tn.Tag;
                                       ifcSQLin.ExecuteNonQuery(sql:"[app].[MoveProject] "+ifcSQL.ifcProject.Project_Row.CurrentProjectId+","+gr.ProjectGroupId,DoOpenAndClose:true);
@@ -96,6 +101,11 @@ foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGro
 foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.cp.Project ) ifcSQL.ifcProject.Project_Row.CurrentProjectId=p.ProjectId;
 foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.ifcProject.Project ) p.ProjectGroup=ProjectGroupDict[p.ProjectGroupId];
 foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.ifcProject.Project ) p.ProjectGroup.ProjectList.Add(p);
+
+foreach (ifcSQL.ifcUser.UserProjectAssignment_Row p in ifcSQL_PrjSel.ifcSQLin.cp.UserProjectAssignment) if (p.UserProjectOrdinalPosition>0) 
+         XTreeView.PrjContextMenu.MenuItems.Add(new MenuItem("Select Project "+p.UserProjectOrdinalPosition+", ProjectId="+p.ProjectId,delegate{XTreeView.SelPrj(p.ProjectId);}));
+//Console.WriteLine("Select Project "+p.UserProjectOrdinalPosition+", ProjectId="+p.ProjectId);
+
 
 TreeNode tn0=ProjectForm.treeView.Nodes.Add("Project Root");
 foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGroup) if (!pg.ParentProjectGroupId.HasValue) pg.AddNodes(tn0);
