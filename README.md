@@ -192,7 +192,8 @@ SET ifcSQL=ifcSQL
 if "%SqlServer%"=="YourSqlServername" GOTO UseYourServerName
 if "%ifcSQL%" NEQ "ifcSQL" echo "The DatabaseName should be ifcSQL"
 pause
-REM sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSQL_1_CreateDatabase.sql
+REM set a REM before the following line, if the ifcSQL-database allready exist
+sqlcmd -S %SqlServer% -i ifcSQL_1_CreateDatabase.sql
 pause
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSQL_2_CreateSchemata_and_types.sql
 pause
