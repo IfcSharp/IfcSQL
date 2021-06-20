@@ -138,7 +138,7 @@ There are different possible ways to install to create the database, you should 
 </summary>
  
 Create a new database with the name "ifcSQL".
-After creation edit the properties. Under "options" you mast change the collation to "LATIN1_GENERAL_100_CS_AS_SC_UTF8" for UTF-8-Support. If you don't do this, the IFC-PropertySets will not be multilingual.
+After creation edit the properties. Under "options" you must change the collation to "LATIN1_GENERAL_100_CS_AS_SC_UTF8" for UTF-8-Support. If you don't do this, the IFC-PropertySets will not be multilingual.
 </details>
 
 <details>

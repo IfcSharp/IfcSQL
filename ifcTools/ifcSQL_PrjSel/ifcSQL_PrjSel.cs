@@ -85,11 +85,15 @@ public  ProjectForm (string txt){treeView.Parent = this;
 static void Main(string[] args){//##########################################################################################
 
 string SqlServerName=Environment.GetEnvironmentVariable("SqlServer");
-string DatabaseName=Environment.GetEnvironmentVariable("ifcSQL");
-if (args.Length>0) SqlServerName=args[0]; 
-if (args.Length>1) DatabaseName=args[1];
+string  DatabaseName=Environment.GetEnvironmentVariable("ifcSQL");
 
-try{
+if (args.Length>0) SqlServerName=args[0]; 
+if (args.Length>1)  DatabaseName=args[1];
+
+if (SqlServerName==null || SqlServerName=="") {Console.WriteLine("No name for SqlServerName found. Set EnvironmentVariables \"SqlServerName\" and  \"ifcSQL\" or CommandLineArguments  \"ifcSQL_PrjSel.exe SqlServerName DatabaseName\"");Console.ReadLine();Application.Exit();}
+if ( DatabaseName==null ||  DatabaseName=="") DatabaseName="ifcSQL";
+
+//try{
 ifcSQLin=new ifcSQL._ifcSQL_for_PrjSel(ServerName:SqlServerName,DatabaseName:DatabaseName);
 ifcSQLin.LoadAllTables();
 Dictionary<int,ifcSQL.ifcProject.ProjectGroupType_Row> ProjectTypeGroupDict=new Dictionary<int,ifcSQL.ifcProject.ProjectGroupType_Row>(); foreach (ifcSQL.ifcProject.ProjectGroupType_Row p in ifcSQLin.ifcProject.ProjectGroupType) ProjectTypeGroupDict.Add(p.ProjectGroupTypeId,p);
@@ -112,7 +116,7 @@ foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGro
 
         
 Application.Run(new ProjectForm("Select Project from ["+SqlServerName+"].["+DatabaseName+"]"));
-}catch(Exception e) {MessageBox.Show(e.Message,"Error",MessageBoxButtons.OK);}
+//}catch(Exception e) {MessageBox.Show(e.Message,"Error",MessageBoxButtons.OK);}
 
 }//of Main #################################################################################################################
 }//of ifcSQL_PrjSel ========================================================================================================
