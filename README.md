@@ -1311,5 +1311,5 @@ A powerful usecase is to use a library as a single source container for an onlin
 
 ## 7 Software Eco System
 This is the software eco system of ifcSQL:
-![](doc/img/eco_ifcSQL_small.png)
 
+![](doc/img/eco_ifcSQL_small.png)
