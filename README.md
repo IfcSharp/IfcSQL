@@ -40,7 +40,8 @@
   * [6.1 Managing IFC-Schema-Information](#61-Managing-IFC-Schema-Information)
   * [6.2 Single Source Container](#62-Single-Source-Container)
   * [6.3 Building Parts Library](#63-Building-Parts-Library)
-
+- [7 Software Eco System](#7-Software-Eco-System)
+ 
 </details>
 
 ## 1 Introduction
@@ -1308,6 +1309,7 @@ ifcSQL enables the possibility to store common model parts only one time in the 
 
 A powerful usecase is to use a library as a single source container for an online-library of buildingparts.
 
-
+## 7 Software Eco System
+This is the software eco system of ifcSQL:
 ![](doc/img/eco_ifcSQL_small.png)
 
