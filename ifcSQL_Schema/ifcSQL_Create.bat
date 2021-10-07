@@ -26,6 +26,8 @@ sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSQL_8_CreateTriggers.sql
 pause
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSQL_9_DisableTrigger.sql
 pause
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSQL_10_BugFixes.sql
+pause
 goto end
 :UseYourServerName
 echo Please replace YourSqlServername with your SqlServername. Use "sqlcmd /L" to get the installed servernames.
