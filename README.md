@@ -329,7 +329,7 @@ After running this script your ifcSQL-installation is complete.
  
  <BR/><BR/>
  
-![](doc/img/ifcSQL_in_SMMS.png =200x)
+![](doc/img/ifcSQL_in_SMMS.png)
 </details>
 
 
