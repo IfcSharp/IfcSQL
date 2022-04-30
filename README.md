@@ -321,7 +321,13 @@ pause
 </details>
 
 After running this script your ifcSQL-installation is complete.
- 
+<details>
+<summary>
+The result should look like this:
+</summary>
+![](doc/img/ifcSQL_in_SMMS.png.png)
+</details>
+
 ## 4 ifcSQL Documentation
 
 ### 4.1 ifcSQL Schema Namespaces
