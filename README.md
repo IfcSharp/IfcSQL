@@ -329,7 +329,7 @@ After running this script your ifcSQL-installation is complete.
  
  <BR/><BR/>
  
-![](doc/img/ifc_ifcSQL_uml_Bock.png)
+![](doc/img/ifcSQL_in_SMMS.png)
 </details>
 
 
