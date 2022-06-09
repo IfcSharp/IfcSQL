@@ -94,5 +94,11 @@ return @IfcLine+@IfcLineEnd+ @CommentStr
 END
 go
 
+UPDATE [ifcSQL].[ifcSchema].[Type] SET [ParentTypeId]=-15 WHERE [TypeName]='Root' -- assign Root-Entity to root of ENTITY
 
+DELETE FROM [ifcSQL].[ifcSpecification].[TypeSpecificationAssignment] WHERE TypeId=-13
+DELETE FROM [ifcSQL].[ifcSchema].[Type] WHERE [TypeName]='root of TYPE' -- wich is TypeId=-13 and real root is 'root of BASETYPE'
+
+DELETE FROM [ifcSQL].[ifcSpecification].[TypeSpecificationAssignment] WHERE TypeId=-18
+DELETE FROM [ifcSQL].[ifcSchema].[Type] WHERE [TypeName]='root of SelectBaseType' -- wich is TypeId=-18 and and is not used
 
