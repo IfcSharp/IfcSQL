@@ -94,7 +94,12 @@ return @IfcLine+@IfcLineEnd+ @CommentStr
 END
 go
 
-UPDATE [ifcSQL].[ifcSchema].[Type] SET [ParentTypeId]=-15 WHERE [TypeName]='Root' -- assign Root-Entity to root of ENTITY
+UPDATE [ifcSQL].[ifcSchema].[Type] SET [ParentTypeId]=-15 WHERE [ParentTypeId] is null and TypeGroupId=5 -- assign to root of ENTITY
+GO
+DROP FUNCTION [ifcSchema].[Type_Root] -- no longer needed, use SELECT CountedInsertString + TypeName from [ifcSQL].[ifcSchema].[Type_TreeByName]  ('root of all types','      .') where NestLevel <3 order by sort
+GO
+DROP FUNCTION [ifcSchema].[Type_RootEntity] -- no longer needed
+GO
 
 DELETE FROM [ifcSQL].[ifcSpecification].[TypeSpecificationAssignment] WHERE TypeId=-13
 DELETE FROM [ifcSQL].[ifcSchema].[Type] WHERE [TypeName]='root of TYPE' -- wich is TypeId=-13 and real root is 'root of BASETYPE'
