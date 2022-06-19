@@ -141,3 +141,25 @@ return @NewProjectId
 END
 GO
 
+/* vorgotten triggers 19.06.2022 */
+
+exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','SetDefAlias'
+go
+exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','SetDefApplicable'
+go
+
+DISABLE TRIGGER [ifcProperty].[SetDefAlias_AfterDeleteTrigger] ON [ifcProperty].[SetDefAlias]
+GO
+DISABLE TRIGGER [ifcProperty].[SetDefAlias_AfterInsertTrigger] ON [ifcProperty].[SetDefAlias]
+GO
+DISABLE TRIGGER [ifcProperty].[SetDefAlias_AfterUpdateTrigger] ON [ifcProperty].[SetDefAlias]
+GO
+
+DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterDeleteTrigger] ON [ifcProperty].[SetDefApplicable]
+GO
+DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterInsertTrigger] ON [ifcProperty].[SetDefApplicable]
+GO
+DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterUpdateTrigger] ON [ifcProperty].[SetDefApplicable]
+GO
+
+
