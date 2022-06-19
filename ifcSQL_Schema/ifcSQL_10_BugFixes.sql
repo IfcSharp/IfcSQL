@@ -107,3 +107,37 @@ DELETE FROM [ifcSQL].[ifcSchema].[Type] WHERE [TypeName]='root of TYPE' -- wich 
 DELETE FROM [ifcSQL].[ifcSpecification].[TypeSpecificationAssignment] WHERE TypeId=-18
 DELETE FROM [ifcSQL].[ifcSchema].[Type] WHERE [TypeName]='root of SelectBaseType' -- wich is TypeId=-18 and and is not used
 
+/* project extensions 19.06.2022 */
+
+ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [Author] [Text].[ToString] NULL
+go
+ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [Organization] [Text].[ToString] NULL
+go
+ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [OriginatingSystem] [Text].[ToString] NULL
+go
+ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [Documentation] [Text].[ToString] NULL
+go
+ALTER VIEW [ifcSQL].[cp].[Project] AS SELECT * FROM ifcProject.Project where (ProjectId = cp.ProjectId())
+GO
+
+
+CREATE procedure [ifcSQL].[app].[NewProjectId]
+	@ProjectName as [Text].[ToString],
+	@ProjectDescription as [Text].[Description],
+	@ProjectGroupId as [ifcProject].[Id] ,
+	@SpecificationId as [ifcSchema].[GroupId],
+	@Author as [Text].[ToString],
+	@Organization as [Text].[ToString],
+	@OriginatingSystem as [Text].[ToString],
+	@Documentation as [Text].[ToString]
+AS
+BEGIN
+SET NOCOUNT ON;
+DECLARE @NewProjectId int =(SELECT Max([ProjectId]) FROM [ifcProject].[Project])
+SET @NewProjectId =@NewProjectId +1;
+insert into [ifcProject].[Project] (ProjectId,ProjectName,ProjectDescription,ProjectGroupId,SpecificationId,Author,Organization,OriginatingSystem,Documentation) VALUES (@NewProjectId,	@ProjectName,@ProjectDescription,@ProjectGroupId,@SpecificationId,@Author,@Organization,@OriginatingSystem,@Documentation)
+EXECUTE [app].[SelectProject] @NewProjectId
+return @NewProjectId
+END
+GO
+
