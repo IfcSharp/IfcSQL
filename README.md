@@ -135,7 +135,7 @@ There are different possible ways to install to create the database, you should 
 
 <details>
 <summary>
-<b>1. using SMMS</b>
+<b>1. using SSMS</b>
 </summary>
  
 Create a new database with the name "ifcSQL".
