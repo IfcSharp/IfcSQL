@@ -417,6 +417,15 @@ REFERENCES [ifcSchema].[Type] ([TypeId])
 GO
 ALTER TABLE [ifcSchema].[SelectItem] CHECK CONSTRAINT [FK_SelectItem_Type]
 GO
+
+ALTER TABLE [ifcSchema].[SelectItem]  WITH CHECK ADD  CONSTRAINT [FK_SelectItem_SelectType] FOREIGN KEY([SelectTypeId])
+REFERENCES [ifcSchema].[Type] ([TypeId])
+GO
+
+ALTER TABLE [ifcSchema].[SelectItem] CHECK CONSTRAINT [FK_SelectItem_SelectType]
+GO
+
+
 ALTER TABLE [ifcSchema].[SelectItem]  WITH CHECK ADD  CONSTRAINT [FK_SelectItem_Type1] FOREIGN KEY([TypeId], [TypeGroupId])
 REFERENCES [ifcSchema].[Type] ([TypeId], [TypeGroupId])
 GO
