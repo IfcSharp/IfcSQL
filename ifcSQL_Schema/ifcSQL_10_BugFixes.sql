@@ -117,11 +117,34 @@ ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [OriginatingSystem] [Text].[ToSt
 go
 ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [Documentation] [Text].[ToString] NULL
 go
-ALTER VIEW [ifcSQL].[cp].[Project] AS SELECT * FROM ifcProject.Project where (ProjectId = cp.ProjectId())
+ALTER VIEW [cp].[Project] AS SELECT * FROM ifcProject.Project where (ProjectId = cp.ProjectId())
 GO
 
+/* project extensions 29.03.2024 */
+CREATE TABLE [ifcProject].[ProjectType](
+	[ProjectTypeId] [ifcProject].[Id] NOT NULL,
+	[ProjectTypeName] [Text].[ToString] NULL,
+	[ProjectTypeDescription] [Text].[Description] NULL,
+ CONSTRAINT [PK_ifcProject_Type] PRIMARY KEY CLUSTERED 
+(
+	[ProjectTypeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
 
-CREATE procedure [ifcSQL].[app].[NewProjectId]
+ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [ParentProjectId] [ifcProject].[Id] NOT NULL
+go
+ALTER TABLE [ifcSQL].[ifcProject].[Project] ADD [ProjectTypeId] [ifcProject].[Id] NOT NULL
+go
+
+ALTER TABLE [ifcProject].[Project]  WITH CHECK ADD  CONSTRAINT [FK_ifcProject_ProjectType] FOREIGN KEY([ProjectTypeId])
+REFERENCES [ifcProject].[ProjectType] ([ProjectTypeId])
+GO
+
+ALTER TABLE [ifcProject].[Project] CHECK CONSTRAINT [FK_ifcProject_ProjectType]
+GO
+
+CREATE procedure [app].[NewProjectId]
 	@ProjectName as [Text].[ToString],
 	@ProjectDescription as [Text].[Description],
 	@ProjectGroupId as [ifcProject].[Id] ,
@@ -135,7 +158,7 @@ BEGIN
 SET NOCOUNT ON;
 DECLARE @NewProjectId int =(SELECT Max([ProjectId]) FROM [ifcProject].[Project])
 SET @NewProjectId =@NewProjectId +1;
-insert into [ifcProject].[Project] (ProjectId,ProjectName,ProjectDescription,ProjectGroupId,SpecificationId,Author,Organization,OriginatingSystem,Documentation) VALUES (@NewProjectId,	@ProjectName,@ProjectDescription,@ProjectGroupId,@SpecificationId,@Author,@Organization,@OriginatingSystem,@Documentation)
+insert into [ifcProject].[Project] (ProjectId,ProjectName,ProjectDescription,ProjectGroupId,SpecificationId,Author,Organization,OriginatingSystem,Documentation,ParentProjectId,ProjectTypeId) VALUES (@NewProjectId,	@ProjectName,@ProjectDescription,@ProjectGroupId,@SpecificationId,@Author,@Organization,@OriginatingSystem,@Documentation,0,0)
 EXECUTE [app].[SelectProject] @NewProjectId
 return @NewProjectId
 END
@@ -160,7 +183,6 @@ GO
 DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterInsertTrigger] ON [ifcProperty].[SetDefApplicable]
 GO
 DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterUpdateTrigger] ON [ifcProperty].[SetDefApplicable]
-
 GO
 
 CREATE VIEW [cs].[Specification] as
@@ -178,5 +200,3 @@ exec sp_rename 'ifcQuantityTakeOff.Type', 'QuantityTakeOffType'
 exec sp_rename 'ifcProperty.SetDefAlias', 'PropertySetDefAlias'
 exec sp_rename 'ifcProperty.SetDefApplicable', 'PropertySetDefApplicable'
 exec sp_rename 'ifcQuantityTakeOff.SetDefApplicableClass', 'QuantityTakeOffSetDefApplicableClass'
-
-//---------------------------------------------------------------------------------------

@@ -24,6 +24,7 @@ sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSpecification.Specification.Table.sql
 
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSchemaTool.ChangeLogType.Table.sql
 
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProject.ProjectType.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProject.ProjectGroupType.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProject.ProjectGroup.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProject.Project.Table.sql
@@ -46,13 +47,19 @@ sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSchema.SelectItem.Table.sql
 
 sqlcmd -S %SqlServer% -d %ifcSQL% -Q [ifcSchemaTool].[ReFill_ifcSchemaDerived_EntityAttributeInstance]
 
+
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.SetDef.Table.sql
+pause
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.Def.Table.sql
+pause
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.DefAlias.Table.sql
+pause
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.SetDefAlias.Table.sql
+pause
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.SetDefApplicable.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.TypePropertyReferenceValue.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.TypePropertySingleValue.Table.sql
+pause
 
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcQuantityTakeOff.Type.Table.sql
 

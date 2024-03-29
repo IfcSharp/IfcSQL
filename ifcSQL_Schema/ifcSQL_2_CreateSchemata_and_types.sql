@@ -2,7 +2,10 @@
 -- this database runs on Microsoft SQL Server 2019, earlier versions don't support UTF-8
 -- this database was testet on Microsoft SQL Server 2019 EXPRESS
 
-EXEC [ifcSQL].sys.sp_addextendedproperty @name=N'ifcSQL', @value=N'Release 1.5 (published on ifcSharp in april 2021)' 
+EXEC [ifcSQL].sys.sp_addextendedproperty @name=N'ifcSQL', @value=N'Release 1.7 (published on ifcSharp in march 2024)' 
+GO
+
+USE [ifcSQL]
 GO
 
 CREATE SCHEMA [_____TEST_____]
