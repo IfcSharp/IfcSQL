@@ -14,7 +14,7 @@ public partial class ProjectGroup_Row : RowBase{//..............................
 public ProjectGroupType_Row ProjectGroupType=null;
 public List<Project_Row> ProjectList=new List<Project_Row>(); 
 public List<ProjectGroup_Row> ChildList=new List<ProjectGroup_Row>();
-public void AddNodes(TreeNode tn){TreeNode tnp=tn.Nodes.Add(this.ProjectGroupName+" ["+ProjectGroupType.ProjectGroupTypeName+"]");
+public void AddNodes(TreeNode tn){TreeNode tnp=tn.Nodes.Add(this.ProjectGroupName+" ["+this.FK_ifcProjectGroup_ProjectGroupType.ProjectGroupTypeName+"]");
                                            tnp.Tag=this;   
                                            tnp.ForeColor=Color.DarkRed;
                                            tnp.ContextMenu=ifcSQL_PrjSel.XTreeView.PrjGroupContextMenu;
@@ -29,8 +29,14 @@ public void AddNodes(TreeNode tn){TreeNode tnp=tn.Nodes.Add(this.ProjectId+" - "
                                            tnp.Tag=this;
                                            tnp.ContextMenu=ifcSQL_PrjSel.XTreeView.PrjContextMenu;
                                   if (this.ProjectId==CurrentProjectId) tnp.BackColor=Color.Yellow;   
+                                  if (this.ParentProjectId>0) tnp.ForeColor=Color.Red;   
+                                  if (this.ProjectTypeId==1) tnp.ForeColor=Color.Blue;   
+                                  if (this.ProjectTypeId==2) tnp.ForeColor=Color.Green;   
+                                  if (this.ProjectTypeId==3) tnp.ForeColor=Color.DarkGray;   
+                                  foreach (ifcSQL.ifcProject.Project_Row p in this.ChildProjects) p.AddNodes(tnp);
                                  }  
 public static int CurrentProjectId=0;
+public List<Project_Row> ChildProjects=new List<Project_Row>();
 }//................................................................................................
 
 }// namespace ifcProject --------------------------------------------------------------------------
@@ -94,25 +100,20 @@ if (SqlServerName==null || SqlServerName=="") {Console.WriteLine("No name for Sq
 if ( DatabaseName==null ||  DatabaseName=="") DatabaseName="ifcSQL";
 
 //try{
-ifcSQLin=new ifcSQL._ifcSQL_for_PrjSel(ServerName:SqlServerName,DatabaseName:DatabaseName);
-ifcSQLin.LoadAllTables();
-Dictionary<int,ifcSQL.ifcProject.ProjectGroupType_Row> ProjectTypeGroupDict=new Dictionary<int,ifcSQL.ifcProject.ProjectGroupType_Row>(); foreach (ifcSQL.ifcProject.ProjectGroupType_Row p in ifcSQLin.ifcProject.ProjectGroupType) ProjectTypeGroupDict.Add(p.ProjectGroupTypeId,p);
-Dictionary<int,ifcSQL.ifcProject.ProjectGroup_Row> ProjectGroupDict=new Dictionary<int,ifcSQL.ifcProject.ProjectGroup_Row>(); foreach (ifcSQL.ifcProject.ProjectGroup_Row p in ifcSQLin.ifcProject.ProjectGroup) ProjectGroupDict.Add(p.ProjectGroupId,p);
+ifcSQLin=new ifcSQL._ifcSQL_for_PrjSel(ServerName:SqlServerName,DatabaseName:DatabaseName,DirectLoad:true);
 
-foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGroup ) pg.ProjectGroupType=ProjectTypeGroupDict[pg.ProjectGroupTypeId];
-foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGroup) if (pg.ParentProjectGroupId.HasValue)  ProjectGroupDict[pg.ParentProjectGroupId.Value].ChildList.Add(pg);
+foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGroup) if (pg.ParentProjectGroupId!=0) ifcSQL.ifcProject.ProjectGroup_Row.Map[pg.ParentProjectGroupId].ChildList.Add(pg);
 
-foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.cp.Project ) ifcSQL.ifcProject.Project_Row.CurrentProjectId=p.ProjectId;
-foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.ifcProject.Project ) p.ProjectGroup=ProjectGroupDict[p.ProjectGroupId];
-foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.ifcProject.Project ) p.ProjectGroup.ProjectList.Add(p);
+foreach (ifcSQL.ifcProject.Project_Row p in ifcSQLin.ifcProject.Project) 
+        if (p.ParentProjectId==0) {p.ProjectGroup=ifcSQL.ifcProject.ProjectGroup_Row.Map[p.ProjectGroupId];p.ProjectGroup.ProjectList.Add(p);}
+        else ifcSQL.ifcProject.Project_Row.Map[p.ParentProjectId].ChildProjects.Add(p);
 
-foreach (ifcSQL.ifcUser.UserProjectAssignment_Row p in ifcSQL_PrjSel.ifcSQLin.cp.UserProjectAssignment) if (p.UserProjectOrdinalPosition>0) 
-         XTreeView.PrjContextMenu.MenuItems.Add(new MenuItem("Select Project "+p.UserProjectOrdinalPosition+", ProjectId="+p.ProjectId,delegate{XTreeView.SelPrj(p.ProjectId);}));
-//Console.WriteLine("Select Project "+p.UserProjectOrdinalPosition+", ProjectId="+p.ProjectId);
-
+foreach (ifcSQL.ifcUser.UserProjectAssignment_Row p in ifcSQL_PrjSel.ifcSQLin.cp.UserProjectAssignment)
+        if  (p.UserProjectOrdinalPosition==0) ifcSQL.ifcProject.Project_Row.CurrentProjectId=p.ProjectId;
+        else XTreeView.PrjContextMenu.MenuItems.Add(new MenuItem("Select Project "+p.UserProjectOrdinalPosition+", ProjectId="+p.ProjectId,delegate{XTreeView.SelPrj(p.ProjectId);}));
 
 TreeNode tn0=ProjectForm.treeView.Nodes.Add("Project Root");
-foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGroup) if (!pg.ParentProjectGroupId.HasValue) pg.AddNodes(tn0);
+foreach (ifcSQL.ifcProject.ProjectGroup_Row pg in ifcSQLin.ifcProject.ProjectGroup) if (pg.ParentProjectGroupId==0) pg.AddNodes(tn0); // removed if (pg.ProjectGroupId>0) // bb 28.03.2024
 
         
 Application.Run(new ProjectForm("Select Project from ["+SqlServerName+"].["+DatabaseName+"]"));
