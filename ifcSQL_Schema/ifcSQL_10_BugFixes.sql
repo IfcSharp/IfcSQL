@@ -94,24 +94,6 @@ return @IfcLine+@IfcLineEnd+ @CommentStr
 END
 go
 
-<<<<<<< HEAD
-//---------------------------------------------------------------------------------------
-
-CREATE SCHEMA [api]
-GO
-
-CREATE TABLE [api].[Application](
-	[ApplicationId] [int] NOT NULL,
-	[ApplicationName] [nvarchar](80) NOT NULL,
-	[InterfaceNamespace] [nvarchar](80) NOT NULL,
-	[InterfaceClassName] [nvarchar](80) NOT NULL,
-	[InterfaceFileName] [nvarchar](80) NOT NULL,
- CONSTRAINT [PK_Application] PRIMARY KEY CLUSTERED 
-(
-	[ApplicationId] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] 
-=======
 UPDATE [ifcSQL].[ifcSchema].[Type] SET [ParentTypeId]=-15 WHERE [ParentTypeId] is null and TypeGroupId=5 -- assign to root of ENTITY
 GO
 DROP FUNCTION [ifcSchema].[Type_Root] -- no longer needed, use SELECT CountedInsertString + TypeName from [ifcSQL].[ifcSchema].[Type_TreeByName]  ('root of all types','      .') where NestLevel <3 order by sort
@@ -178,32 +160,7 @@ GO
 DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterInsertTrigger] ON [ifcProperty].[SetDefApplicable]
 GO
 DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterUpdateTrigger] ON [ifcProperty].[SetDefApplicable]
->>>>>>> b312046d5e7cc97d609678fc57806fd04b3fe288
-GO
 
-
-CREATE TABLE [api].[ApplicationInterface](
-	[ApplicationId] [int] NOT NULL,
-	[ViewSchemaName] [nvarchar](80) NOT NULL,
-	[ViewName] [nvarchar](250) NOT NULL,
-	[TableSchemaName] [nvarchar](80) NOT NULL,
-	[TableName] [nvarchar](250) NOT NULL,
-	[OptionalFilterAndOrderCommandPart] [nvarchar](250) NOT NULL,
-	[CreateDictionary] [bit] NOT NULL,
- CONSTRAINT [PK_ApplicationInterface] PRIMARY KEY CLUSTERED 
-(
-	[ApplicationId] ASC,
-	[ViewSchemaName] ASC,
-	[ViewName] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
-) ON [PRIMARY] 
-GO
-
-ALTER TABLE [api].[ApplicationInterface]  WITH CHECK ADD  CONSTRAINT [FK_ApplicationInterface_Application] FOREIGN KEY([ApplicationId])
-REFERENCES [api].[Application] ([ApplicationId])
-GO
-
-ALTER TABLE [api].[ApplicationInterface] CHECK CONSTRAINT [FK_ApplicationInterface_Application]
 GO
 
 CREATE VIEW [cs].[Specification] as

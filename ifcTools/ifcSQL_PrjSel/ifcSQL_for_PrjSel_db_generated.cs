@@ -1,131 +1,137 @@
-// ifcSQL_for_PrjSel_db_generated.cs, Copyright (c) 2020, Bernhard Simon Bock, Friedrich Eder, MIT License (see https://github.com/IfcSharp/IfcSharpLibrary/tree/master/Licence) 
-// ifcSQL: Release 1.3 (after bS submitted in Febr 2020)
- 
+// Interface to database ifcSQL, Comment: Release 1.5 (published on ifcSharp in april 2021)
+// This software use IfcSharp (see https://github.com/IfcSharp)
+using System.Collections.Generic;
+using System;
 using db;
- 
+using System.IO;
+using System.Xml.Serialization;
+
 namespace ifcSQL{//########################################################################
+
 // namespace overview and template for filenames:
 namespace ifcProject{}
 namespace ifcUser{}
- 
+
+// enums:
+
 // Overview and Template for class-extending:
 namespace ifcProject{//=====================================================================
-public partial class EntityInstanceIdAssignment_Row : RowBase{}
-public partial class LastGlobalEntityInstanceId_Row : RowBase{}
 public partial class Project_Row : RowBase{}
 public partial class ProjectGroup_Row : RowBase{}
 public partial class ProjectGroupType_Row : RowBase{}
+public partial class ProjectType_Row : RowBase{}
 }// namespace ifcProject -------------------------------------------------------------------
- 
+
 namespace ifcUser{//=====================================================================
-public partial class Login_Row : RowBase{}
-public partial class User_Row : RowBase{}
 public partial class UserProjectAssignment_Row : RowBase{}
 }// namespace ifcUser -------------------------------------------------------------------
- 
+
 //#############################################################################################
 //#############################################################################################
- 
+
 namespace ifcProject{//=====================================================================
- 
-public partial class EntityInstanceIdAssignment_Row : RowBase{
- public EntityInstanceIdAssignment_Row(int ProjectId, long ProjectEntityInstanceId, long GlobalEntityInstanceId){this.ProjectId=ProjectId;this.ProjectEntityInstanceId=ProjectEntityInstanceId;this.GlobalEntityInstanceId=GlobalEntityInstanceId;}
- public EntityInstanceIdAssignment_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="ifcProject",name="Id")] [References(RefTableSchema="ifcProject",RefTableName="Project",RefTableColName="ProjectId")] public int ProjectId=0;
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="ifcInstance",name="Id")] public long ProjectEntityInstanceId=0;
- [DbField] [UserType(schema="ifcInstance",name="Id")] [References(RefTableSchema="ifcInstance",RefTableName="Entity",RefTableColName="GlobalEntityInstanceId")] public long GlobalEntityInstanceId=0;
-}
- 
-public partial class LastGlobalEntityInstanceId_Row : RowBase{
- public LastGlobalEntityInstanceId_Row(int ProjectId, long GlobalEntityInstanceId){this.ProjectId=ProjectId;this.GlobalEntityInstanceId=GlobalEntityInstanceId;}
- public LastGlobalEntityInstanceId_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="ifcProject",name="Id")] public int ProjectId=0;
- [DbField] [UserType(schema="ifcInstance",name="Id")] public long GlobalEntityInstanceId=0;
-}
- 
+
 public partial class Project_Row : RowBase{
- public Project_Row(int ProjectId, string ProjectName, string ProjectDescription, int ProjectGroupId, int SpecificationId){this.ProjectId=ProjectId;this.ProjectName=ProjectName;this.ProjectDescription=ProjectDescription;this.ProjectGroupId=ProjectGroupId;this.SpecificationId=SpecificationId;}
- public Project_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="ifcProject",name="Id")] public int ProjectId=0;
- [DbField] [UserType(schema="Text",name="ToString")] public string ProjectName="";
- [DbField] [UserType(schema="Text",name="Description")] public string ProjectDescription="";
- [DbField] [UserType(schema="ifcProject",name="Id")] [References(RefTableSchema="ifcProject",RefTableName="ProjectGroup",RefTableColName="ProjectGroupId")] public int ProjectGroupId=0;
- [DbField] [UserType(schema="ifcSchema",name="GroupId")] [References(RefTableSchema="ifcSpecification",RefTableName="Specification",RefTableColName="SpecificationId")] public int SpecificationId=0;
+[XmlAttributeAttribute][DbField(PrimaryKey=true,PkName="PK_ifcProject")] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] public int ProjectId=0;
+public ifcProject.Project_Row FK_ifcProject_Project {get{return ifcProject.Project_Row.Map[ParentProjectId];}}
+public ifcProject.ProjectGroup_Row FK_ifcProject_ProjectGroup {get{return ifcProject.ProjectGroup_Row.Map[ProjectGroupId];}}
+public ifcProject.ProjectType_Row FK_ifcProject_ProjectType {get{return ifcProject.ProjectType_Row.Map[ProjectTypeId];}}
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="ToString")] [SqlType(name="nvarchar",size=-1)] public string ProjectName="";
+public override string ToString(){return ProjectName;}
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Description")] [SqlType(name="nvarchar",size=-1)] public string ProjectDescription="";
+[XmlAttributeAttribute][DbField] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] [References(FkName="FK_ifcProject_ProjectGroup",RefPkName="PK_ifcProjectGroup",RefTableSchema="ifcProject",RefTableName="ProjectGroup",RefTableColName="ProjectGroupId")] public int ProjectGroupId=0;
+[XmlAttributeAttribute][DbField] [UserType(schema="ifcSchema",name="GroupId")] [SqlType(name="int",size=4)] [References(FkName="FK_Project_Specification",RefPkName="PK_Version",RefTableSchema="ifcSpecification",RefTableName="Specification",RefTableColName="SpecificationId")] public int SpecificationId=0;
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Name")] [SqlType(name="nvarchar",size=-1)] public string Author="";
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Name")] [SqlType(name="nvarchar",size=-1)] public string Organization="";
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Name")] [SqlType(name="nvarchar",size=-1)] public string OriginatingSystem="";
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Name")] [SqlType(name="nvarchar",size=-1)] public string Documentation="";
+[XmlAttributeAttribute][DbField] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] [References(FkName="FK_ifcProject_Project",RefPkName="PK_ifcProject",RefTableSchema="ifcProject",RefTableName="Project",RefTableColName="ProjectId")] public int ParentProjectId=0;
+[XmlAttributeAttribute][DbField] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] [References(FkName="FK_ifcProject_ProjectType",RefPkName="PK_ifcProject_Type",RefTableSchema="ifcProject",RefTableName="ProjectType",RefTableColName="ProjectTypeId")] public int ProjectTypeId=0;
+public static Dictionary<int,Project_Row> Map=new Dictionary<int,Project_Row>();
+public override void Load(TableBase rows){foreach (Project_Row row in rows) Map.Add(row.ProjectId,row);}
 }
- 
+
 public partial class ProjectGroup_Row : RowBase{
- public ProjectGroup_Row(int ProjectGroupId, string ProjectGroupName, string ProjectGroupDescription, int? ParentProjectGroupId, int ProjectGroupTypeId){this.ProjectGroupId=ProjectGroupId;this.ProjectGroupName=ProjectGroupName;this.ProjectGroupDescription=ProjectGroupDescription;this.ParentProjectGroupId=ParentProjectGroupId;this.ProjectGroupTypeId=ProjectGroupTypeId;}
- public ProjectGroup_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="ifcProject",name="Id")] public int ProjectGroupId=0;
- [DbField] [UserType(schema="Text",name="ToString")] public string ProjectGroupName="";
- [DbField] [UserType(schema="Text",name="Description")] public string ProjectGroupDescription="";
- [DbField] [UserType(schema="ifcProject",name="Id")] [References(RefTableSchema="ifcProject",RefTableName="ProjectGroup",RefTableColName="ProjectGroupId")] public int? ParentProjectGroupId=null;
- [DbField] [UserType(schema="ifcProject",name="Id")] [References(RefTableSchema="ifcProject",RefTableName="ProjectGroupType",RefTableColName="ProjectGroupTypeId")] public int ProjectGroupTypeId=0;
+[XmlAttributeAttribute][DbField(PrimaryKey=true,PkName="PK_ifcProjectGroup")] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] public int ProjectGroupId=0;
+public ifcProject.ProjectGroup_Row FK_ifcProjectGroup_ProjectGroup {get{return ifcProject.ProjectGroup_Row.Map[ParentProjectGroupId];}}
+public ifcProject.ProjectGroupType_Row FK_ifcProjectGroup_ProjectGroupType {get{return ifcProject.ProjectGroupType_Row.Map[ProjectGroupTypeId];}}
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="ToString")] [SqlType(name="nvarchar",size=-1)] public string ProjectGroupName="";
+public override string ToString(){return ProjectGroupName;}
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Description")] [SqlType(name="nvarchar",size=-1)] public string ProjectGroupDescription="";
+[XmlAttributeAttribute][DbField] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] [References(FkName="FK_ifcProjectGroup_ProjectGroup",RefPkName="PK_ifcProjectGroup",RefTableSchema="ifcProject",RefTableName="ProjectGroup",RefTableColName="ProjectGroupId")] public int ParentProjectGroupId=0;
+[XmlAttributeAttribute][DbField] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] [References(FkName="FK_ifcProjectGroup_ProjectGroupType",RefPkName="PK_ifcProjectType",RefTableSchema="ifcProject",RefTableName="ProjectGroupType",RefTableColName="ProjectGroupTypeId")] public int ProjectGroupTypeId=0;
+public static Dictionary<int,ProjectGroup_Row> Map=new Dictionary<int,ProjectGroup_Row>();
+public override void Load(TableBase rows){foreach (ProjectGroup_Row row in rows) Map.Add(row.ProjectGroupId,row);}
 }
- 
+
 public partial class ProjectGroupType_Row : RowBase{
- public ProjectGroupType_Row(int ProjectGroupTypeId, string ProjectGroupTypeName, string ProjectGroupTypeDescription){this.ProjectGroupTypeId=ProjectGroupTypeId;this.ProjectGroupTypeName=ProjectGroupTypeName;this.ProjectGroupTypeDescription=ProjectGroupTypeDescription;}
- public ProjectGroupType_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="ifcProject",name="Id")] public int ProjectGroupTypeId=0;
- [DbField] [UserType(schema="Text",name="ToString")] public string ProjectGroupTypeName="";
- [DbField] [UserType(schema="Text",name="Description")] public string ProjectGroupTypeDescription="";
+[XmlAttributeAttribute][DbField(PrimaryKey=true,PkName="PK_ifcProjectType")] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] public int ProjectGroupTypeId=0;
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="ToString")] [SqlType(name="nvarchar",size=-1)] public string ProjectGroupTypeName="";
+public override string ToString(){return ProjectGroupTypeName;}
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Description")] [SqlType(name="nvarchar",size=-1)] public string ProjectGroupTypeDescription="";
+public static Dictionary<int,ProjectGroupType_Row> Map=new Dictionary<int,ProjectGroupType_Row>();
+public override void Load(TableBase rows){foreach (ProjectGroupType_Row row in rows) Map.Add(row.ProjectGroupTypeId,row);}
 }
- 
+
+public partial class ProjectType_Row : RowBase{
+[XmlAttributeAttribute][DbField(PrimaryKey=true,PkName="PK_ifcProject_Type")] [UserType(schema="ifcProject",name="Id")] [SqlType(name="int",size=4)] public int ProjectTypeId=0;
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="ToString")] [SqlType(name="nvarchar",size=-1)] public string ProjectTypeName="";
+public override string ToString(){return ProjectTypeName;}
+[XmlAttributeAttribute][DbField] [UserType(schema="Text",name="Description")] [SqlType(name="nvarchar",size=-1)] public string ProjectTypeDescription="";
+public static Dictionary<int,ProjectType_Row> Map=new Dictionary<int,ProjectType_Row>();
+public override void Load(TableBase rows){foreach (ProjectType_Row row in rows) Map.Add(row.ProjectTypeId,row);}
+}
+
 }// namespace ifcProject -------------------------------------------------------------------
- 
- 
+
 namespace ifcUser{//=====================================================================
- 
-public partial class Login_Row : RowBase{
- public Login_Row(int UserId, string Login){this.UserId=UserId;this.Login=Login;}
- public Login_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] public int UserId=0;
- [DbField(PrimaryKey=true, SortAscending=true)] [UserType(schema="Text",name="Login")] public string Login="";
-}
- 
-public partial class User_Row : RowBase{
- public User_Row(int UserId, string FamilyName, string FirstName, string Email){this.UserId=UserId;this.FamilyName=FamilyName;this.FirstName=FirstName;this.Email=Email;}
- public User_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] public int UserId=0;
- [DbField] [UserType(schema="Text",name="Name")] public string FamilyName="";
- [DbField] [UserType(schema="Text",name="Name")] public string FirstName="";
- [DbField] [UserType(schema="Text",name="Name")] public string Email="";
-}
- 
+
 public partial class UserProjectAssignment_Row : RowBase{
- public UserProjectAssignment_Row(int UserId, int UserProjectOrdinalPosition, int ProjectId){this.UserId=UserId;this.UserProjectOrdinalPosition=UserProjectOrdinalPosition;this.ProjectId=ProjectId;}
- public UserProjectAssignment_Row(){}
- [DbField(PrimaryKey=true, SortAscending=true)] [References(RefTableSchema="ifcUser",RefTableName="User",RefTableColName="UserId")] public int UserId=0;
- [DbField(PrimaryKey=true, SortAscending=true)] public int UserProjectOrdinalPosition=0;
- [DbField] [References(RefTableSchema="ifcProject",RefTableName="Project",RefTableColName="ProjectId")] public int ProjectId=0;
+[XmlAttributeAttribute][DbField(PrimaryKey=true,PkName="PK_ifcUser_UserProject")] [SqlType(name="Int",size=4)] [References(FkName="FK_UserProject_User",RefPkName="PK_ifcUser_User",RefTableSchema="ifcUser",RefTableName="User",RefTableColName="UserId")] public int UserId=0;
+public ifcProject.Project_Row FK_ProjectSUSER_PRJ {get{return ifcProject.Project_Row.Map[ProjectId];}}
+[XmlAttributeAttribute][DbField(PrimaryKey=true,PkName="PK_ifcUser_UserProject")] [SqlType(name="Int",size=4)] public int UserProjectOrdinalPosition=0;
+[XmlAttributeAttribute][DbField] [SqlType(name="Int",size=4)] [References(FkName="FK_ProjectSUSER_PRJ",RefPkName="PK_ifcProject",RefTableSchema="ifcProject",RefTableName="Project",RefTableColName="ProjectId")] public int ProjectId=0;
 }
- 
+
 }// namespace ifcUser -------------------------------------------------------------------
- 
- 
-public partial class cp_Schema:SchemaBase{// -------------------------------------------------------------------
-public TableBase Project=new RowList<ifcProject.Project_Row>();
-public TableBase UserProjectAssignment=new RowList<ifcUser.UserProjectAssignment_Row>();
-}// of cp_Schema // -------------------------------------------------------------------
- 
+
+//#############################################################################################
+//#############################################################################################
+
 public partial class ifcProject_Schema:SchemaBase{// -------------------------------------------------------------------
-public TableBase Project=new RowList<ifcProject.Project_Row>();
-public TableBase ProjectGroup=new RowList<ifcProject.ProjectGroup_Row>();
+public TableBase Project=new RowList<ifcProject.Project_Row>("ORDER BY ProjectName");
+public TableBase ProjectGroup=new RowList<ifcProject.ProjectGroup_Row>("ORDER BY ProjectGroupName");
 public TableBase ProjectGroupType=new RowList<ifcProject.ProjectGroupType_Row>();
+public TableBase ProjectType=new RowList<ifcProject.ProjectType_Row>();
 }// of ifcProject_Schema // -------------------------------------------------------------------
- 
-public partial class ifcUser_Schema:SchemaBase{// -------------------------------------------------------------------
-public TableBase UserProjectAssignment=new RowList<ifcUser.UserProjectAssignment_Row>();
-}// of ifcUser_Schema // -------------------------------------------------------------------
- 
- 
- 
- /// <summary>DataSource with the name "ifcSQL" for Software "ifcSQL_PrjSel"</summary>
+
+public partial class cp_Schema:SchemaBase{// -------------------------------------------------------------------
+public TableBase UserProjectAssignment=new RowList<ifcUser.UserProjectAssignment_Row>("ORDER BY UserProjectOrdinalPosition");
+}// of cp_Schema // -------------------------------------------------------------------
+
+//#############################################################################################
+//#############################################################################################
+
+[XmlInclude(typeof(ifcProject.Project_Row))]
+[XmlInclude(typeof(ifcProject.ProjectGroup_Row))]
+[XmlInclude(typeof(ifcProject.ProjectGroupType_Row))]
+[XmlInclude(typeof(ifcProject.ProjectType_Row))]
+
+[XmlInclude(typeof(ifcUser.UserProjectAssignment_Row))]
+
+//#############################################################################################
+//#############################################################################################
+
+/// <summary>interface between database "ifcSQL" and software "ifcSQL_PrjSel"</summary>
 public partial class _ifcSQL_for_PrjSel:TableSet{ //assign Tables to the TableSet
-public _ifcSQL_for_PrjSel(string ServerName, string DatabaseName="ifcSQL_Instance"):base(ServerName,DatabaseName){}
+public _ifcSQL_for_PrjSel(string ServerName, string DatabaseName="ifcSQL",bool DirectLoad=false):base(ServerName,DatabaseName,DirectLoad){if (DirectLoad) LoadLists();}
+public _ifcSQL_for_PrjSel(string ServerName,string UserName,string Password, string DatabaseName="ifcSQL",bool DirectLoad=false):base(ServerName,DatabaseName,UserName,Password,DirectLoad){if (DirectLoad) LoadLists();}
 public _ifcSQL_for_PrjSel():base(){}
-public cp_Schema cp =new cp_Schema();
 public ifcProject_Schema ifcProject =new ifcProject_Schema();
-public ifcUser_Schema ifcUser =new ifcUser_Schema();
+public cp_Schema cp =new cp_Schema();
+public void LoadLists(){}
+
+public void ToXml(string XmlFileName){using (StreamWriter sw = new StreamWriter(XmlFileName)) new XmlSerializer(typeof(_ifcSQL_for_PrjSel)).Serialize(sw,this);}
+public static _ifcSQL_for_PrjSel FromXml(string XmlFileName){_ifcSQL_for_PrjSel tmp=new XmlSerializer(typeof(_ifcSQL_for_PrjSel)).Deserialize(new StreamReader(XmlFileName)) as _ifcSQL_for_PrjSel;tmp.LoadAllMaps();tmp.LoadLists();return tmp;}
 }
-}// namespace ifcSQL_PrjSel ########################################################################
+}// namespace ifcSQL ########################################################################
