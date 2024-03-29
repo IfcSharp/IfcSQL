@@ -8,8 +8,8 @@
     <ProjectGuid>{1EE6AE39-40BA-401F-8BC7-84B968A89EF2}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FBS_create_types_XLS</RootNamespace>
-    <AssemblyName>FBS_create_types_XLS</AssemblyName>
+    <RootNamespace>ifcSQL_PrjSel</RootNamespace>
+    <AssemblyName>ifcSQL_PrjSel</AssemblyName>
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
