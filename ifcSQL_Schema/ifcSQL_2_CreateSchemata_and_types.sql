@@ -74,7 +74,8 @@ CREATE SCHEMA [Vector2d]
 GO
 CREATE SCHEMA [Vector3d]
 GO
-
+CREATE SCHEMA [html]
+GO
 
 
 CREATE TYPE [Bool].[YesNo] FROM [bit] NOT NULL
@@ -152,4 +153,6 @@ GO
 CREATE TYPE [Vector3d].[Y] FROM [float] NULL
 GO
 CREATE TYPE [Vector3d].[Z] FROM [float] NULL
+GO
+CREATE TYPE [html].[RgbHex] FROM [char](7) NULL
 GO

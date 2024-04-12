@@ -333,3 +333,73 @@ GO
  
 CREATE VIEW [ifcSQL].[CurrentRelease] AS SELECT * FROM ifcSQL.Release where (ReleaseKey=ifcSQL.CurrentReleaseKey())
 GO
+
+
+
+CREATE VIEW [cs].[Layer] as
+SELECT distinct l.* FROM [ifcSchema].[Layer] l inner join [cs].[Type] t on(l.LayerId=t.LayerId) 
+GO
+CREATE VIEW [cs].[LayerGroup] as
+SELECT distinct lg.* FROM [ifcSchema].[LayerGroup] lg inner join [cs].[Layer] l on (lg.LayerGroupId=l.LayerGroupId) 
+GO
+CREATE VIEW [cs].[QuantityTakeOffSetDef] as
+SELECT t.* FROM [ifcQuantityTakeOff].[QuantityTakeOffSetDef] t where t.SpecificationId=[cs].[SpecificationId] ()
+GO
+CREATE VIEW [cs].[QuantityTakeOffDef] as
+SELECT a.* FROM [cs].[QuantityTakeOffSetDef] t inner join [ifcQuantityTakeOff].[QuantityTakeOffDef] a on (t.SetDefId=a.SetDefId)
+GO
+CREATE VIEW [cs].[QuantityTakeOffDefAlias] as
+SELECT a.* FROM [cs].[QuantityTakeOffDef] d inner join [ifcQuantityTakeOff].[QuantityTakeOffDefAlias] a on (d.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[QuantityTakeOffSetDefApplicableClass] as
+SELECT a.* FROM [cs].[QuantityTakeOffDef] t inner join [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass] a on (t.SetDefId=a.SetDefId)
+GO
+CREATE VIEW [cs].[PropertySetDef] as
+SELECT p.* FROM [ifcProperty].[PropertySetDef] p where p.SpecificationId=[cs].[SpecificationId] ()
+GO
+CREATE VIEW [cs].[PropertyDef] as
+SELECT a.* FROM [cs].[PropertySetDef] t inner join [ifcProperty].[PropertyDef] a on (t.SetDefId=a.SetDefId)
+GO
+CREATE VIEW [cs].[PropertySetDefApplicable] as
+SELECT a.* FROM [cs].[PropertySetDef] t inner join [ifcProperty].[PropertySetDefApplicable] a on (t.SetDefId=a.SetDefId)
+GO
+CREATE VIEW [cs].[PropertyDefAlias] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[PropertyDefAlias] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[PropertySetDefAlias] as
+SELECT a.* FROM [cs].[PropertySetDef] t inner join [ifcProperty].[PropertySetDefAlias] a on (t.SetDefId=a.SetDefId)
+GO
+CREATE VIEW [cs].[TypeComplexProperty] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypeComplexProperty] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[TypePropertyBoundedValue] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypePropertyBoundedValue] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[TypePropertyEnumeratedValue] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypePropertyEnumeratedValue] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[TypePropertyListValue] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypePropertyListValue] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[TypePropertyReferenceValue] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypePropertyReferenceValue] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[TypePropertySingleValue] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypePropertySingleValue] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[TypePropertyTableValue] as
+SELECT a.* FROM [cs].[PropertyDef] t inner join [ifcProperty].[TypePropertyTableValue] a on (t.DefId=a.DefId)
+GO
+CREATE VIEW [cs].[EntityAttributeDefaultvalue] as
+SELECT distinct e.* FROM [ifcSchema].[EntityAttributeDefaultvalue] e inner join [cs].[Type] t on(e.EntityTypeId=t.TypeId) 
+GO
+CREATE VIEW [cs].[EntityAttributeInstance] as
+SELECT distinct e.* FROM [ifcSchemaDerived].[EntityAttributeInstance] e inner join [cs].[Type] t on(e.EntityTypeId=t.TypeId) 
+GO
+CREATE VIEW [cs].[EnumItemAlias] as
+SELECT distinct e.* FROM [ifcSchema].[EnumItemAlias] e inner join [cs].[Type] t on(e.TypeId=t.TypeId) 
+GO
+CREATE VIEW [cs].[TypeSpecificationAssignment] as
+SELECT * FROM  [ifcSpecification].[TypeSpecificationAssignment] where (SpecificationId=[cs].[SpecificationId]())
+GO
+

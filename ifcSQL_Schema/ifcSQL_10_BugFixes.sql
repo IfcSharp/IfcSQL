@@ -200,3 +200,4 @@ exec sp_rename 'ifcQuantityTakeOff.Type', 'QuantityTakeOffType'
 exec sp_rename 'ifcProperty.SetDefAlias', 'PropertySetDefAlias'
 exec sp_rename 'ifcProperty.SetDefApplicable', 'PropertySetDefApplicable'
 exec sp_rename 'ifcQuantityTakeOff.SetDefApplicableClass', 'QuantityTakeOffSetDefApplicableClass'
+
