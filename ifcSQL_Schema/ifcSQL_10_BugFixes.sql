@@ -166,38 +166,27 @@ GO
 
 /* vorgotten triggers 19.06.2022 */
 
-exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','SetDefAlias'
+exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','PropertySetDefAlias'
 go
-exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','SetDefApplicable'
+exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','PropertySetDefApplicable'
 go
 
-DISABLE TRIGGER [ifcProperty].[SetDefAlias_AfterDeleteTrigger] ON [ifcProperty].[SetDefAlias]
+DISABLE TRIGGER [ifcProperty].[PropertySetDefAlias_AfterDeleteTrigger] ON [ifcProperty].[PropertySetDefAlias]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDefAlias_AfterInsertTrigger] ON [ifcProperty].[SetDefAlias]
+DISABLE TRIGGER [ifcProperty].[PropertySetDefAlias_AfterInsertTrigger] ON [ifcProperty].[PropertySetDefAlias]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDefAlias_AfterUpdateTrigger] ON [ifcProperty].[SetDefAlias]
+DISABLE TRIGGER [ifcProperty].[PropertySetDefAlias_AfterUpdateTrigger] ON [ifcProperty].[PropertySetDefAlias]
 GO
 
-DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterDeleteTrigger] ON [ifcProperty].[SetDefApplicable]
+DISABLE TRIGGER [ifcProperty].[PropertySetDefApplicable_AfterDeleteTrigger] ON [ifcProperty].[PropertySetDefApplicable]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterInsertTrigger] ON [ifcProperty].[SetDefApplicable]
+DISABLE TRIGGER [ifcProperty].[PropertySetDefApplicable_AfterInsertTrigger] ON [ifcProperty].[PropertySetDefApplicable]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDefApplicable_AfterUpdateTrigger] ON [ifcProperty].[SetDefApplicable]
+DISABLE TRIGGER [ifcProperty].[PropertySetDefApplicable_AfterUpdateTrigger] ON [ifcProperty].[PropertySetDefApplicable]
 GO
 
 CREATE VIEW [cs].[Specification] as
 SELECT s.* FROM  [ifcSpecification].[Specification] s inner join [cp].[Project] p on (s.SpecificationId=p.SpecificationId)
 GO
 
-exec sp_rename 'ifcDocumentation.Type', 'DocumentationType'
-exec sp_rename 'ifcProperty.Def', 'PropertyDef'
-exec sp_rename 'ifcProperty.DefAlias', 'PropertyDefAlias'
-exec sp_rename 'ifcProperty.SetDef', 'PropertySetDef'
-exec sp_rename 'ifcQuantityTakeOff.Def', 'QuantityTakeOffDef'
-exec sp_rename 'ifcQuantityTakeOff.DefAlias', 'QuantityTakeOffDefAlias'
-exec sp_rename 'ifcQuantityTakeOff.SetDef', 'QuantityTakeOffSetDef'
-exec sp_rename 'ifcQuantityTakeOff.Type', 'QuantityTakeOffType'
-exec sp_rename 'ifcProperty.SetDefAlias', 'PropertySetDefAlias'
-exec sp_rename 'ifcProperty.SetDefApplicable', 'PropertySetDefApplicable'
-exec sp_rename 'ifcQuantityTakeOff.SetDefApplicableClass', 'QuantityTakeOffSetDefApplicableClass'
 

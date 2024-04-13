@@ -88,6 +88,7 @@ sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProject.LastGlobalEntityInstanceId.Table
 pause
 
 sqlcmd -S %SqlServer% -d %ifcSQL% -Q "app.CreateNewUserIfNotExist"
+sqlcmd -S %SqlServer% -d %ifcSQL% -Q "app.SelectProject 1006"
 pause
 
 goto end

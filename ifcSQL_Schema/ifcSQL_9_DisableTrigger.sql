@@ -27,11 +27,11 @@ DISABLE TRIGGER [ifcDocumentation].[HumanLanguage_AfterInsertTrigger] ON [ifcDoc
 GO
 DISABLE TRIGGER [ifcDocumentation].[HumanLanguage_AfterUpdateTrigger] ON [ifcDocumentation].[NaturalLanguage]
 GO
-DISABLE TRIGGER [ifcDocumentation].[Type_AfterDeleteTrigger] ON [ifcDocumentation].[Type]
+DISABLE TRIGGER [ifcDocumentation].[Type_AfterDeleteTrigger] ON [ifcDocumentation].[DocumentationType]
 GO
-DISABLE TRIGGER [ifcDocumentation].[Type_AfterInsertTrigger] ON [ifcDocumentation].[Type]
+DISABLE TRIGGER [ifcDocumentation].[Type_AfterInsertTrigger] ON [ifcDocumentation].[DocumentationType]
 GO
-DISABLE TRIGGER [ifcDocumentation].[Type_AfterUpdateTrigger] ON [ifcDocumentation].[Type]
+DISABLE TRIGGER [ifcDocumentation].[Type_AfterUpdateTrigger] ON [ifcDocumentation].[DocumentationType]
 GO
 DISABLE TRIGGER [ifcInstance].[EntityAfterUpdateTrigger] ON [ifcInstance].[Entity]
 GO
@@ -61,23 +61,23 @@ DISABLE TRIGGER [ifcInstance].[EntityAttributeOfStringInsteadOfInsertTrigger] ON
 GO
 DISABLE TRIGGER [ifcInstance].[EntityInsteadOfInsertTrigger] ON [ifcInstance].[Entity]
 GO
-DISABLE TRIGGER [ifcProperty].[Def_AfterDeleteTrigger] ON [ifcProperty].[Def]
+DISABLE TRIGGER [ifcProperty].[Def_AfterDeleteTrigger] ON [ifcProperty].[PropertyDef]
 GO
-DISABLE TRIGGER [ifcProperty].[Def_AfterInsertTrigger] ON [ifcProperty].[Def]
+DISABLE TRIGGER [ifcProperty].[Def_AfterInsertTrigger] ON [ifcProperty].[PropertyDef]
 GO
-DISABLE TRIGGER [ifcProperty].[Def_AfterUpdateTrigger] ON [ifcProperty].[Def]
+DISABLE TRIGGER [ifcProperty].[Def_AfterUpdateTrigger] ON [ifcProperty].[PropertyDef]
 GO
-DISABLE TRIGGER [ifcProperty].[DefAlias_AfterDeleteTrigger] ON [ifcProperty].[DefAlias]
+DISABLE TRIGGER [ifcProperty].[DefAlias_AfterDeleteTrigger] ON [ifcProperty].[PropertyDefAlias]
 GO
-DISABLE TRIGGER [ifcProperty].[DefAlias_AfterInsertTrigger] ON [ifcProperty].[DefAlias]
+DISABLE TRIGGER [ifcProperty].[DefAlias_AfterInsertTrigger] ON [ifcProperty].[PropertyDefAlias]
 GO
-DISABLE TRIGGER [ifcProperty].[DefAlias_AfterUpdateTrigger] ON [ifcProperty].[DefAlias]
+DISABLE TRIGGER [ifcProperty].[DefAlias_AfterUpdateTrigger] ON [ifcProperty].[PropertyDefAlias]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDef_AfterDeleteTrigger] ON [ifcProperty].[SetDef]
+DISABLE TRIGGER [ifcProperty].[SetDef_AfterDeleteTrigger] ON [ifcProperty].[PropertySetDef]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDef_AfterInsertTrigger] ON [ifcProperty].[SetDef]
+DISABLE TRIGGER [ifcProperty].[SetDef_AfterInsertTrigger] ON [ifcProperty].[PropertySetDef]
 GO
-DISABLE TRIGGER [ifcProperty].[SetDef_AfterUpdateTrigger] ON [ifcProperty].[SetDef]
+DISABLE TRIGGER [ifcProperty].[SetDef_AfterUpdateTrigger] ON [ifcProperty].[PropertySetDef]
 GO
 DISABLE TRIGGER [ifcProperty].[TypeComplexProperty_AfterDeleteTrigger] ON [ifcProperty].[TypeComplexProperty]
 GO
@@ -121,35 +121,35 @@ DISABLE TRIGGER [ifcProperty].[TypePropertyTableValue_AfterInsertTrigger] ON [if
 GO
 DISABLE TRIGGER [ifcProperty].[TypePropertyTableValue_AfterUpdateTrigger] ON [ifcProperty].[TypePropertyTableValue]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[Def_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[Def]
+DISABLE TRIGGER [ifcQuantityTakeOff].[Def_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDef]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[Def_AfterInsertTrigger] ON [ifcQuantityTakeOff].[Def]
+DISABLE TRIGGER [ifcQuantityTakeOff].[Def_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDef]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[Def_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[Def]
+DISABLE TRIGGER [ifcQuantityTakeOff].[Def_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDef]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[DefAlias]
+DISABLE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDefAlias]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterInsertTrigger] ON [ifcQuantityTakeOff].[DefAlias]
+DISABLE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDefAlias]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[DefAlias]
+DISABLE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDefAlias]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[SetDef]
+DISABLE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDef]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterInsertTrigger] ON [ifcQuantityTakeOff].[SetDef]
+DISABLE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDef]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[SetDef]
+DISABLE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDef]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[SetDefApplicableClass]
+DISABLE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterInsertTrigger] ON [ifcQuantityTakeOff].[SetDefApplicableClass]
+DISABLE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[SetDefApplicableClass]
+DISABLE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[Type_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[Type]
+DISABLE TRIGGER [ifcQuantityTakeOff].[Type_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffType]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[Type_AfterInsertTrigger] ON [ifcQuantityTakeOff].[Type]
+DISABLE TRIGGER [ifcQuantityTakeOff].[Type_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffType]
 GO
-DISABLE TRIGGER [ifcQuantityTakeOff].[Type_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[Type]
+DISABLE TRIGGER [ifcQuantityTakeOff].[Type_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffType]
 GO
 DISABLE TRIGGER [ifcSchema].[EntityAttribute_AfterDeleteTrigger] ON [ifcSchema].[EntityAttribute]
 GO

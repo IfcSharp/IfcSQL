@@ -107,7 +107,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcDocumentation].[Type_AfterDeleteTrigger] ON [ifcDocumentation].[Type]
+CREATE TRIGGER [ifcDocumentation].[Type_AfterDeleteTrigger] ON [ifcDocumentation].[DocumentationType]
 AFTER DELETE
 AS
 BEGIN
@@ -118,7 +118,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcDocumentation].[Type_AfterInsertTrigger] ON [ifcDocumentation].[Type]
+CREATE TRIGGER [ifcDocumentation].[Type_AfterInsertTrigger] ON [ifcDocumentation].[DocumentationType]
 AFTER INSERT
 AS
 BEGIN
@@ -129,7 +129,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcDocumentation].[Type_AfterUpdateTrigger] ON [ifcDocumentation].[Type]
+CREATE TRIGGER [ifcDocumentation].[Type_AfterUpdateTrigger] ON [ifcDocumentation].[DocumentationType]
 AFTER UPDATE
 AS
 BEGIN
@@ -504,7 +504,7 @@ GO
  
 
 
-CREATE TRIGGER [ifcProperty].[Def_AfterDeleteTrigger] ON [ifcProperty].[Def]
+CREATE TRIGGER [ifcProperty].[Def_AfterDeleteTrigger] ON [ifcProperty].[PropertyDef]
 AFTER DELETE
 AS
 BEGIN
@@ -515,7 +515,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[Def_AfterInsertTrigger] ON [ifcProperty].[Def]
+CREATE TRIGGER [ifcProperty].[Def_AfterInsertTrigger] ON [ifcProperty].[PropertyDef]
 AFTER INSERT
 AS
 BEGIN
@@ -526,7 +526,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[Def_AfterUpdateTrigger] ON [ifcProperty].[Def]
+CREATE TRIGGER [ifcProperty].[Def_AfterUpdateTrigger] ON [ifcProperty].[PropertyDef]
 AFTER UPDATE
 AS
 BEGIN
@@ -539,7 +539,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[DefAlias_AfterDeleteTrigger] ON [ifcProperty].[DefAlias]
+CREATE TRIGGER [ifcProperty].[DefAlias_AfterDeleteTrigger] ON [ifcProperty].[PropertyDefAlias]
 AFTER DELETE
 AS
 BEGIN
@@ -550,7 +550,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[DefAlias_AfterInsertTrigger] ON [ifcProperty].[DefAlias]
+CREATE TRIGGER [ifcProperty].[DefAlias_AfterInsertTrigger] ON [ifcProperty].[PropertyDefAlias]
 AFTER INSERT
 AS
 BEGIN
@@ -561,7 +561,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[DefAlias_AfterUpdateTrigger] ON [ifcProperty].[DefAlias]
+CREATE TRIGGER [ifcProperty].[DefAlias_AfterUpdateTrigger] ON [ifcProperty].[PropertyDefAlias]
 AFTER UPDATE
 AS
 BEGIN
@@ -574,7 +574,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[SetDef_AfterDeleteTrigger] ON [ifcProperty].[SetDef]
+CREATE TRIGGER [ifcProperty].[SetDef_AfterDeleteTrigger] ON [ifcProperty].[PropertySetDef]
 AFTER DELETE
 AS
 BEGIN
@@ -585,7 +585,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[SetDef_AfterInsertTrigger] ON [ifcProperty].[SetDef]
+CREATE TRIGGER [ifcProperty].[SetDef_AfterInsertTrigger] ON [ifcProperty].[PropertySetDef]
 AFTER INSERT
 AS
 BEGIN
@@ -596,7 +596,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcProperty].[SetDef_AfterUpdateTrigger] ON [ifcProperty].[SetDef]
+CREATE TRIGGER [ifcProperty].[SetDef_AfterUpdateTrigger] ON [ifcProperty].[PropertySetDef]
 AFTER UPDATE
 AS
 BEGIN
@@ -853,7 +853,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[Def_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[Def]
+CREATE TRIGGER [ifcQuantityTakeOff].[Def_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDef]
 AFTER DELETE
 AS
 BEGIN
@@ -864,7 +864,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[Def_AfterInsertTrigger] ON [ifcQuantityTakeOff].[Def]
+CREATE TRIGGER [ifcQuantityTakeOff].[Def_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDef]
 AFTER INSERT
 AS
 BEGIN
@@ -875,7 +875,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[Def_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[Def]
+CREATE TRIGGER [ifcQuantityTakeOff].[Def_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDef]
 AFTER UPDATE
 AS
 BEGIN
@@ -888,7 +888,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[DefAlias]
+CREATE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDefAlias]
 AFTER DELETE
 AS
 BEGIN
@@ -899,7 +899,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterInsertTrigger] ON [ifcQuantityTakeOff].[DefAlias]
+CREATE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDefAlias]
 AFTER INSERT
 AS
 BEGIN
@@ -910,7 +910,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[DefAlias]
+CREATE TRIGGER [ifcQuantityTakeOff].[DefAlias_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffDefAlias]
 AFTER UPDATE
 AS
 BEGIN
@@ -923,7 +923,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[SetDef]
+CREATE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDef]
 AFTER DELETE
 AS
 BEGIN
@@ -934,7 +934,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterInsertTrigger] ON [ifcQuantityTakeOff].[SetDef]
+CREATE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDef]
 AFTER INSERT
 AS
 BEGIN
@@ -945,7 +945,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[SetDef]
+CREATE TRIGGER [ifcQuantityTakeOff].[SetDef_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDef]
 AFTER UPDATE
 AS
 BEGIN
@@ -958,7 +958,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[SetDefApplicableClass]
+CREATE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass]
 AFTER DELETE
 AS
 BEGIN
@@ -969,7 +969,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterInsertTrigger] ON [ifcQuantityTakeOff].[SetDefApplicableClass]
+CREATE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass]
 AFTER INSERT
 AS
 BEGIN
@@ -980,7 +980,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[SetDefApplicableClass]
+CREATE TRIGGER [ifcQuantityTakeOff].[SetDefApplicableClass_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass]
 AFTER UPDATE
 AS
 BEGIN
@@ -993,7 +993,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[Type_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[Type]
+CREATE TRIGGER [ifcQuantityTakeOff].[Type_AfterDeleteTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffType]
 AFTER DELETE
 AS
 BEGIN
@@ -1004,7 +1004,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[Type_AfterInsertTrigger] ON [ifcQuantityTakeOff].[Type]
+CREATE TRIGGER [ifcQuantityTakeOff].[Type_AfterInsertTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffType]
 AFTER INSERT
 AS
 BEGIN
@@ -1015,7 +1015,7 @@ END
 GO 
 
 
-CREATE TRIGGER [ifcQuantityTakeOff].[Type_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[Type]
+CREATE TRIGGER [ifcQuantityTakeOff].[Type_AfterUpdateTrigger] ON [ifcQuantityTakeOff].[QuantityTakeOffType]
 AFTER UPDATE
 AS
 BEGIN

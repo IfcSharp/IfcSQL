@@ -36,7 +36,7 @@ CREATE TABLE [ifcDocumentation].[NaturalLanguage](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcDocumentation].[Type](
+CREATE TABLE [ifcDocumentation].[DocumentationType](
 	[EntityTypeId] [ifcSchema].[Id] NOT NULL,
 	[EntityDocumentation] [Text].[Html] NULL,
  CONSTRAINT [PK_EntityDocumentation] PRIMARY KEY CLUSTERED 
@@ -62,6 +62,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfBinary](
 	[GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL,
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcType].[ifcBINARY] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfBinary] PRIMARY KEY CLUSTERED 
 (
@@ -78,6 +79,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfEntityRef](
 	[GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL,
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcInstance].[Id] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfEntityRef] PRIMARY KEY CLUSTERED 
 (
@@ -92,6 +94,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfFloat](
 	[GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL,
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcType].[ifcREAL] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfFloat] PRIMARY KEY CLUSTERED 
 (
@@ -106,6 +109,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfInteger](
 	[GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL,
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcType].[ifcINTEGER] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfInteger] PRIMARY KEY CLUSTERED 
 (
@@ -120,6 +124,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfList](
 	[GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL,
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfList] PRIMARY KEY CLUSTERED 
 (
 	[GlobalEntityInstanceId] ASC,
@@ -134,6 +139,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfListElementOfEntityRef](
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
 	[ListDim2Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcInstance].[Id] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfListElementOfEntityRef] PRIMARY KEY CLUSTERED 
 (
@@ -150,6 +156,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfListElementOfFloat](
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
 	[ListDim2Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcType].[ifcREAL] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfListElementOfFloat] PRIMARY KEY CLUSTERED 
 (
@@ -166,6 +173,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfListElementOfInteger](
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
 	[ListDim2Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcType].[ifcINTEGER] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfListElementOfInteger] PRIMARY KEY CLUSTERED 
 (
@@ -181,6 +189,7 @@ CREATE TABLE [ifcInstance].[EntityAttributeListElementOfString](
 	[GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL,
 	[OrdinalPosition] [ifcOrder].[Position] NOT NULL,
 	[ListDim1Position] [ifcOrder].[Position] NOT NULL,
+        [TypeId] [ifcSchema].[Id] NOT NULL,
 	[Value] [ifcType].[ifcSTRING] NOT NULL,
  CONSTRAINT [PK_EntityAttributeListElementOfString] PRIMARY KEY CLUSTERED 
 (
@@ -382,7 +391,7 @@ CREATE TABLE [ifcProject].[ProjectGroupType](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcProperty].[Def](
+CREATE TABLE [ifcProperty].[PropertyDef](
 	[DefId] [ifcProperty].[Id] NOT NULL,
 	[ifdguid] [ifcType].[IfdGuid] NOT NULL,
 	[DefName] [Text].[ToString] NOT NULL,
@@ -395,7 +404,7 @@ CREATE TABLE [ifcProperty].[Def](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcProperty].[DefAlias](
+CREATE TABLE [ifcProperty].[PropertyDefAlias](
 	[DefId] [ifcProperty].[Id] NOT NULL,
 	[HumanLanguageId] [int] NOT NULL,
 	[DefAliasName] [Text].[ToString] NOT NULL,
@@ -408,7 +417,7 @@ CREATE TABLE [ifcProperty].[DefAlias](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcProperty].[SetDef](
+CREATE TABLE [ifcProperty].[PropertySetDef](
 	[SetDefId] [ifcProperty].[Id] NOT NULL,
 	[SpecificationId] [ifcSchema].[GroupId] NOT NULL,
 	[SetDefName] [Text].[ToString] NOT NULL,
@@ -420,7 +429,7 @@ CREATE TABLE [ifcProperty].[SetDef](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcProperty].[SetDefAlias](
+CREATE TABLE [ifcProperty].[PropertySetDefAlias](
 	[SetDefId] [ifcProperty].[Id] NOT NULL,
 	[HumanLanguageId] [int] NOT NULL,
 	[SetDefAlias] [Text].[ToString] NULL,
@@ -432,7 +441,7 @@ CREATE TABLE [ifcProperty].[SetDefAlias](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcProperty].[SetDefApplicable](
+CREATE TABLE [ifcProperty].[PropertySetDefApplicable](
 	[SetDefId] [ifcProperty].[Id] NOT NULL,
 	[EntityTypeId] [ifcSchema].[Id] NOT NULL,
 	[EnumTypeId] [ifcSchema].[Id] NOT NULL,
@@ -524,7 +533,7 @@ CREATE TABLE [ifcProperty].[TypePropertyTableValue](
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcQuantityTakeOff].[Def](
+CREATE TABLE [ifcQuantityTakeOff].[QuantityTakeOffDef](
 	[DefId] [ifcProperty].[Id] NOT NULL,
 	[DefName] [Text].[ToString] NOT NULL,
 	[DefDefinition] [Text].[Description] NULL,
@@ -537,7 +546,7 @@ CREATE TABLE [ifcQuantityTakeOff].[Def](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcQuantityTakeOff].[DefAlias](
+CREATE TABLE [ifcQuantityTakeOff].[QuantityTakeOffDefAlias](
 	[DefId] [ifcProperty].[Id] NOT NULL,
 	[NaturalLanguageId] [int] NOT NULL,
 	[DefAliasName] [Text].[ToString] NOT NULL,
@@ -550,7 +559,7 @@ CREATE TABLE [ifcQuantityTakeOff].[DefAlias](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcQuantityTakeOff].[SetDef](
+CREATE TABLE [ifcQuantityTakeOff].[QuantityTakeOffSetDef](
 	[SetDefId] [ifcProperty].[Id] NOT NULL,
 	[SpecificationId] [ifcSchema].[GroupId] NOT NULL,
 	[SetDefName] [Text].[ToString] NOT NULL,
@@ -563,7 +572,7 @@ CREATE TABLE [ifcQuantityTakeOff].[SetDef](
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcQuantityTakeOff].[SetDefApplicableClass](
+CREATE TABLE [ifcQuantityTakeOff].[QuantityTakeOffSetDefApplicableClass](
 	[SetDefId] [ifcProperty].[Id] NOT NULL,
 	[TypeId] [ifcSchema].[Id] NOT NULL,
  CONSTRAINT [PK_ifcQuantityTakeOff_SetDefApplicableClass] PRIMARY KEY CLUSTERED 
@@ -574,7 +583,7 @@ CREATE TABLE [ifcQuantityTakeOff].[SetDefApplicableClass](
 ) ON [PRIMARY]
 GO
 
-CREATE TABLE [ifcQuantityTakeOff].[Type](
+CREATE TABLE [ifcQuantityTakeOff].[QuantityTakeOffType](
 	[TypeId] [ifcProperty].[Id] NOT NULL,
 	[TypeName] [Text].[ToString] NOT NULL,
  CONSTRAINT [PK_ifcQuantityTakeOff_Type] PRIMARY KEY CLUSTERED 
