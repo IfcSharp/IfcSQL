@@ -48,15 +48,15 @@ sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcSchema.SelectItem.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -Q [ifcSchemaTool].[ReFill_ifcSchemaDerived_EntityAttributeInstance]
 
 
-sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.SetDef.Table.sql
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.PropertySetDef.Table.sql
 pause
-sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.Def.Table.sql
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.PropertyDef.Table.sql
 pause
-sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.DefAlias.Table.sql
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.PropertyDefAlias.Table.sql
 pause
-sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.SetDefAlias.Table.sql
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.PropertySetDefAlias.Table.sql
 pause
-sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.SetDefApplicable.Table.sql
+sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.PropertySetDefApplicable.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.TypePropertyReferenceValue.Table.sql
 sqlcmd -S %SqlServer% -d %ifcSQL% -i ifcProperty.TypePropertySingleValue.Table.sql
 pause
