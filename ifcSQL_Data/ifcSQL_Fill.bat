@@ -1,6 +1,6 @@
 REM Database-schema of ifcSQL, Copyright (c) 2021, Bernhard Simon Bock, Friedrich Eder, MIT License (see https://github.com/IfcSharp/IfcSharpLibrary/tree/master/Licence)
-REM This database runs on Microsoft SQL Server 2019, earlier versions don't support UTF-8
-REM The database was testet on Microsoft SQL Server 2019 EXPRESS
+REM This database runs on Microsoft SQL Server 2019 or higher, earlier versions don't support UTF-8
+REM The database was testet on Microsoft SQL Server 2019 EXPRESS and 2022 EXPRESS 
 
 SET SqlServer=YourSqlServername
 SET ifcSQL=ifcSQL

@@ -15,6 +15,7 @@ if ((select Max([Login]) from [ifcSQL].[ifcUser].[Login] where [Login]=SYSTEM_US
         DECLARE @MaxProjectId int =(SELECT Max([ProjectId]) FROM [ifcSQL].[ifcProject].[Project])   
         INSERT INTO [ifcSQL].[ifcUser].[User]([UserId],[FamilyName],[FirstName],[Email]) VALUES(@NextUserId, 'FamilyName'+CONVERT(nvarchar(max),@NextUserId),'FirstName'+CONVERT(nvarchar(max),@NextUserId),'User'+CONVERT(nvarchar(max),@NextUserId)+'@example.com')
         INSERT INTO [ifcSQL].[ifcUser].[Login]([UserId],[Login]) VALUES(@NextUserId,SYSTEM_USER)
+        INSERT INTO [ifcUser].[UserProjectGroupAssignment] ([UserId], [ProjectGroupId]) VALUES (@NextUserId, 3)
 
 		DECLARE @cnt INT = 0;
 		WHILE @cnt < 10 BEGIN INSERT INTO [ifcSQL].[ifcUser].[UserProjectAssignment]([UserId],[UserProjectOrdinalPosition],[ProjectId]) VALUES(@NextUserId,@cnt,@MaxProjectId)  
@@ -122,6 +123,7 @@ SELECT * into #prj  FROM [cp].[Project]
 update #prj set [ProjectId]=@NewProjectId
 update #prj set  [ProjectName]=@NewName
 update #prj set  [ProjectDescription]=@NewName
+update #prj set  [ProjectGroupId]=cp.ProjectGroupId()
 
 insert into [ifcProject].[Project] select * from  #prj
 
@@ -856,3 +858,43 @@ UPDATE [ifcSQL].[cp].[EntityAttributeOfString] SET Value='projectname at the wro
 
 END
 GO
+
+CREATE PROCEDURE [app].[EraseProject]
+@DelProjectId as int
+AS
+BEGIN
+SET NOCOUNT ON;
+exec [app].[DeleteProjectEntities] @DelProjectId
+exec [app].[DeleteProject] @DelProjectId
+END
+GO
+
+CREATE PROCEDURE [app].[SelectProjectGroup]
+@SelectProjectGroupId as int
+AS
+BEGIN
+SET NOCOUNT ON;
+update [cp].[UserProjectGroupAssignment] set ProjectGroupId= @SelectProjectGroupId
+END
+GO
+
+CREATE procedure [app].[NewProjectExtended]
+	@ProjectName as [Text].[ToString],
+	@ProjectDescription as [Text].[Description],
+	@ProjectGroupId as [ifcProject].[Id] ,
+	@SpecificationId as [ifcSchema].[GroupId],
+	@Author as [Text].[ToString],
+	@Organization as [Text].[ToString],
+	@OriginatingSystem as [Text].[ToString],
+	@Documentation as [Text].[ToString]
+AS
+BEGIN
+SET NOCOUNT ON;
+DECLARE @NewProjectId int =(SELECT Max([ProjectId]) FROM [ifcProject].[Project])
+SET @NewProjectId =@NewProjectId +1;
+insert into [ifcProject].[Project] (ProjectId,ProjectName,ProjectDescription,ProjectGroupId,SpecificationId,Author,Organization,OriginatingSystem,Documentation,ParentProjectId,ProjectTypeId) VALUES (@NewProjectId,	@ProjectName,@ProjectDescription,@ProjectGroupId,@SpecificationId,@Author,@Organization,@OriginatingSystem,@Documentation,0,0)
+EXECUTE [app].[SelectProject] @NewProjectId
+return @NewProjectId
+END
+GO
+

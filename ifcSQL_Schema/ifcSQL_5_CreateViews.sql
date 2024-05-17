@@ -402,4 +402,10 @@ GO
 CREATE VIEW [cs].[TypeSpecificationAssignment] as
 SELECT * FROM  [ifcSpecification].[TypeSpecificationAssignment] where (SpecificationId=[cs].[SpecificationId]())
 GO
+CREATE VIEW [cp].[ProjectGroup] as
+SELECT * FROM ifcProject.ProjectGroup where (ProjectGroupId = cp.ProjectGroupId())
+GO
 
+CREATE VIEW [cs].[Specification] as
+SELECT s.* FROM  [ifcSpecification].[Specification] s inner join [cp].[Project] p on (s.SpecificationId=p.SpecificationId)
+GO

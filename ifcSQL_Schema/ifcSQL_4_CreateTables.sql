@@ -360,6 +360,12 @@ CREATE TABLE [ifcProject].[Project](
 	[ProjectDescription] [Text].[Description] NULL,
 	[ProjectGroupId] [ifcProject].[Id] NOT NULL,
 	[SpecificationId] [ifcSchema].[GroupId] NOT NULL,
+	[Author] [Text].[ToString] NULL,
+	[Organization] [Text].[ToString] NULL,
+	[OriginatingSystem] [Text].[ToString] NULL,
+	[Documentation] [Text].[ToString] NULL,
+	[ParentProjectId] [ifcProject].[Id] NOT NULL,
+	[ProjectTypeId] [ifcProject].[Id] NOT NULL,
  CONSTRAINT [PK_ifcProject] PRIMARY KEY CLUSTERED 
 (
 	[ProjectId] ASC
@@ -942,3 +948,25 @@ CREATE TABLE [ifcUser].[UserProjectAssignment](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
+
+CREATE TABLE [ifcUser].[UserProjectGroupAssignment](
+	[UserId] [int] NOT NULL,
+	[ProjectGroupId] [int] NOT NULL,
+ CONSTRAINT [PK_ifcUser_UserProjectGroup] PRIMARY KEY CLUSTERED 
+(
+	[UserId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+CREATE TABLE [ifcProject].[ProjectType](
+	[ProjectTypeId] [ifcProject].[Id] NOT NULL,
+	[ProjectTypeName] [Text].[ToString] NULL,
+	[ProjectTypeDescription] [Text].[Description] NULL,
+ CONSTRAINT [PK_ifcProject_Type] PRIMARY KEY CLUSTERED 
+(
+	[ProjectTypeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
+GO
+

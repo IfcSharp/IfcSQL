@@ -583,4 +583,27 @@ GO
 ALTER TABLE [ifcInstance].[EntityAttributeOfVector] CHECK CONSTRAINT [FK_EntityAttributeOfVector_Type]
 GO
 
+ALTER TABLE [ifcUser].[UserProjectGroupAssignment]  WITH CHECK ADD  CONSTRAINT [FK_ProjectGroupSUSER_PRJ] FOREIGN KEY([ProjectGroupId])
+REFERENCES [ifcProject].[ProjectGroup] ([ProjectGroupId])
+GO
+
+ALTER TABLE [ifcUser].[UserProjectGroupAssignment] CHECK CONSTRAINT [FK_ProjectGroupSUSER_PRJ]
+GO
+
+ALTER TABLE [ifcUser].[UserProjectGroupAssignment]  WITH CHECK ADD  CONSTRAINT [FK_UserProjectGroup_User] FOREIGN KEY([UserId])
+REFERENCES [ifcUser].[User] ([UserId])
+GO
+
+ALTER TABLE [ifcUser].[UserProjectGroupAssignment] CHECK CONSTRAINT [FK_UserProjectGroup_User]
+GO
+
+ALTER TABLE [ifcProject].[Project]  WITH CHECK ADD  CONSTRAINT [FK_ifcProject_ProjectType] FOREIGN KEY([ProjectTypeId])
+REFERENCES [ifcProject].[ProjectType] ([ProjectTypeId])
+GO
+
+ALTER TABLE [ifcProject].[Project] CHECK CONSTRAINT [FK_ifcProject_ProjectType]
+GO
+
+
+
 

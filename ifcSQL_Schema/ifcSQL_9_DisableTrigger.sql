@@ -241,3 +241,18 @@ DISABLE TRIGGER [ifcSQL].[Release_AfterInsertTrigger] ON [ifcSQL].[Release]
 GO
 DISABLE TRIGGER [ifcSQL].[Release_AfterUpdateTrigger] ON [ifcSQL].[Release]
 GO
+
+
+DISABLE TRIGGER [ifcProperty].[PropertySetDefAlias_AfterDeleteTrigger] ON [ifcProperty].[PropertySetDefAlias]
+GO
+DISABLE TRIGGER [ifcProperty].[PropertySetDefAlias_AfterInsertTrigger] ON [ifcProperty].[PropertySetDefAlias]
+GO
+DISABLE TRIGGER [ifcProperty].[PropertySetDefAlias_AfterUpdateTrigger] ON [ifcProperty].[PropertySetDefAlias]
+GO
+
+DISABLE TRIGGER [ifcProperty].[PropertySetDefApplicable_AfterDeleteTrigger] ON [ifcProperty].[PropertySetDefApplicable]
+GO
+DISABLE TRIGGER [ifcProperty].[PropertySetDefApplicable_AfterInsertTrigger] ON [ifcProperty].[PropertySetDefApplicable]
+GO
+DISABLE TRIGGER [ifcProperty].[PropertySetDefApplicable_AfterUpdateTrigger] ON [ifcProperty].[PropertySetDefApplicable]
+GO

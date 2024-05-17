@@ -1581,6 +1581,13 @@ END
 GO
 
 
+exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','PropertySetDefAlias'
+go
+exec [ifcSQL].[ifcSchemaTool].[CreateDmlTriggers] 'ifcProperty','PropertySetDefApplicable'
+go
+
+
+
 CREATE TRIGGER [DdlChangeLog] 
 ON DATABASE  
 FOR DDL_DATABASE_LEVEL_EVENTS 

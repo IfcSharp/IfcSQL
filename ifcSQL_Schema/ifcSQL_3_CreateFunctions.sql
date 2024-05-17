@@ -30,6 +30,7 @@ END
 GO
 
 
+-- LocalEntityId, float-format with comma and no science-fromat
 CREATE FUNCTION [ifcInstance].[EntityAttributeFormatted]  (@GlobalEntityInstanceId as [ifcInstance].[Id])
 RETURNS @Attributes TABLE([GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL, [OrdinalPosition] [ifcOrder].[Position] NOT NULL,     [TypeId] [ifcSchema].[Id] NOT NULL, [ValueStr] NVARCHAR(MAX) )
 AS BEGIN
@@ -37,44 +38,48 @@ INSERT INTO @Attributes
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],[ifcInstance].[EntityAttributeListElementFormattedString]([GlobalEntityInstanceId],[OrdinalPosition]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfList] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId  union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfBinary] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],'.T. or .F.'+CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfBoolean] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
-SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],'#'+CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfEntityRef] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
+SELECT R.[GlobalEntityInstanceId],[OrdinalPosition],[TypeId],'#'+CONVERT(VARCHAR(MAX),A.[ProjectEntityInstanceId]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfEntityRef] R inner join [ifcSQL].[ifcProject].[EntityInstanceIdAssignment] A on(R.[Value]=A.[GlobalEntityInstanceId]) where R.[GlobalEntityInstanceId]=@GlobalEntityInstanceId union
 SELECT a.GlobalEntityInstanceId,a.OrdinalPosition,a.TypeId,'.'+e.[EnumItemName]+'.' as [ValueStr] FROM [ifcInstance].[EntityAttributeOfEnum] a inner join [ifcSQL].[ifcSchema].[EnumItem] e on (a.TypeId=e.TypeId and a.Value=e.EnumItemId) where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
-SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfFloat] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
+SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],FORMAT([Value], '0.000', 'en-us') as [ValueStr] FROM [ifcInstance].[EntityAttributeOfFloat] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfInteger] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId], IIF([TypeId]<0,'/*','''')+CONVERT(nvarchar(max),[Value]+IIF([TypeId]<0,'*/','''')) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfString] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],[TypeId],'('+CONVERT(nvarchar(max),CONVERT(nvarchar(max),[X])+','+CONVERT(nvarchar(max),[Y])  +IIF([Z] is not null,','+CONVERT(nvarchar(max),[Z]),'')+')' ) as [ValueStr] FROM [ifcInstance].[EntityAttributeOfVector] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId
 RETURN
 END
-GO
+go
 
+-- LocalEntityId, float-format with comma and no science-format in lists
 CREATE FUNCTION [ifcInstance].[EntityAttributeListElementFormatted]  (@GlobalEntityInstanceId as [ifcInstance].[Id], @OrdinalPosition [ifcOrder].[Position])
 RETURNS @Attributes TABLE([GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL, [OrdinalPosition] [ifcOrder].[Position] NOT NULL, [ValueStr] NVARCHAR(MAX) )
 AS BEGIN
 INSERT INTO @Attributes
 -- EntityAttributeListElementOfList
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfBinary] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId and [OrdinalPosition]=@OrdinalPosition union
-SELECT [GlobalEntityInstanceId],[OrdinalPosition],'#'+CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfEntityRef] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId and [OrdinalPosition]=@OrdinalPosition  union
-SELECT [GlobalEntityInstanceId],[OrdinalPosition],CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfFloat] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId and [OrdinalPosition]=@OrdinalPosition  union
+SELECT R.[GlobalEntityInstanceId],[OrdinalPosition],'#'+CONVERT(VARCHAR(MAX),A.[ProjectEntityInstanceId]) as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfEntityRef] R inner join [ifcSQL].[ifcProject].[EntityInstanceIdAssignment] A on(R.[Value]=A.[GlobalEntityInstanceId]) where R.[GlobalEntityInstanceId]=@GlobalEntityInstanceId and R.[OrdinalPosition]=@OrdinalPosition union
+SELECT [GlobalEntityInstanceId],[OrdinalPosition],FORMAT([Value], '0.000', 'en-us')  as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfFloat] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId and [OrdinalPosition]=@OrdinalPosition  union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],CONVERT(nvarchar(max),[Value]) as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfInteger] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId and [OrdinalPosition]=@OrdinalPosition  union
 SELECT [GlobalEntityInstanceId],[OrdinalPosition],''''+CONVERT(nvarchar(max),[Value]+'''') as [ValueStr] FROM [ifcInstance].[EntityAttributeListElementOfString] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId and [OrdinalPosition]=@OrdinalPosition 
 RETURN
 END
-GO
+go
 
+-- no comma and the end of the list
 CREATE FUNCTION [ifcInstance].[EntityAttributeListElementFormattedString](@GlobalEntityInstanceId as [ifcInstance].[Id], @OrdinalPosition [ifcOrder].[Position])
 RETURNS VARCHAR(MAX) AS
 BEGIN
 DECLARE @IfcLine VARCHAR(MAX)= '('
 DECLARE @ValueStr nvarchar(max)
+DECLARE @ValueSeparator nvarchar(1)=''
 DECLARE CursorView CURSOR FOR SELECT ValueStr FROM [ifcInstance].[EntityAttributeListElementFormatted](@GlobalEntityInstanceId, @OrdinalPosition)
 OPEN CursorView; FETCH NEXT FROM CursorView into @ValueStr
-WHILE @@FETCH_STATUS = 0  BEGIN  SET @IfcLine=@IfcLine+@ValueStr+','
+WHILE @@FETCH_STATUS = 0  BEGIN  SET @IfcLine=@IfcLine+@ValueSeparator+@ValueStr
+                                 SET @ValueSeparator=',' 
                                  FETCH NEXT FROM CursorView into @ValueStr
-                                    END;                                                    
+                          END;                                                    
 CLOSE CursorView; DEALLOCATE CursorView
 return @IfcLine+')'
 END
-GO
+go
 
 CREATE FUNCTION [ifcInstance].[EntityAttributeListElementOfListElementFormatted]  (@GlobalEntityInstanceId as [ifcInstance].[Id], @OrdinalPosition [ifcOrder].[Position], @ListDim1Position [ifcOrder].[Position])
 RETURNS @Attributes TABLE([GlobalEntityInstanceId] [ifcInstance].[Id] NOT NULL, [OrdinalPosition] [ifcOrder].[Position] NOT NULL, [ValueStr] NVARCHAR(MAX) )
@@ -87,6 +92,8 @@ RETURN
 END
 GO
 
+
+-- end of line with semicolon
 CREATE FUNCTION [ifcInstance].[ToIfcStepLine](@GlobalEntityInstanceId as [ifcInstance].[Id])
 RETURNS VARCHAR(MAX) AS
 BEGIN
@@ -96,8 +103,9 @@ DECLARE @IfcLine VARCHAR(MAX)=''
 DECLARE @IfcLineEnd VARCHAR(2)=''
 if (@IfcTypeStr<>'ENTITYCOMMENT') begin SET @IfcLine= '#'+(SELECT CONVERT(VARCHAR(MAX),[ProjectEntityInstanceId])+'=' FROM [ifcSQL].[ifcProject].[EntityInstanceIdAssignment] where [GlobalEntityInstanceId]=@GlobalEntityInstanceId)
                                                          + (SELECT 'IFC'+ UPPER(t.TypeName)+'(' from ifcSchema.Type t inner join ifcInstance.Entity e on (e.EntityTypeId=t.TypeId) where e.[GlobalEntityInstanceId]=@GlobalEntityInstanceId)
-                                        SET @IfcLineEnd=')'
+                                        SET @IfcLineEnd=');'
                                   end                                                         
+
 
 DECLARE @ValueStr nvarchar(max)
 DECLARE @ValueSeparator nvarchar(1)=''
@@ -124,7 +132,7 @@ CLOSE CursorView; DEALLOCATE CursorView
 
 return @IfcLine+@IfcLineEnd+ @CommentStr
 END
-GO
+go
 
 
 CREATE FUNCTION [ifcProject].[LastGlobalId](@ProjectId as int)
@@ -575,42 +583,7 @@ return @res
 END
 GO
 
-CREATE FUNCTION [ifcSchema].[Type_Root]() 
-    RETURNS @TREE TABLE
-(
-    TypeId   [ifcSchema].[Id] NOT NULL
-    ,TypeName [ifcSchema].[IndexableName] NOT NULL
-    ,ParentTypeId   [ifcSchema].[Id] NULL -- parent
-    ,NestLevel  INT NOT NULL
-)
-AS
-BEGIN
-  INSERT INTO @TREE
-    SELECT t.TypeId ,TypeName,ParentTypeId,0 as NestLevel 
-	FROM [ifcSchema].[Type] t inner join [ifcSQL].[ifcSpecification].[TypeSpecificationAssignment] s on (t.TypeId=s.TypeId)
-	WHERE ParentTypeId is null and s.SpecificationId=[cs].[SpecificationId]()
-  RETURN
-END
-GO
 
-CREATE FUNCTION [ifcSchema].[Type_RootEntity]() 
-    RETURNS @TREE TABLE
-(
-    TypeId   [ifcSchema].[Id] NOT NULL
-    ,TypeName [ifcSchema].[IndexableName] NOT NULL
-    ,ParentTypeId   [ifcSchema].[Id] NULL -- parent
-    ,NestLevel  INT NOT NULL
-)
-AS
-BEGIN
-  INSERT INTO @TREE
-    SELECT t.TypeId ,TypeName,ParentTypeId,0 as NestLevel 
-	FROM [ifcSchema].[Type] t inner join [ifcSQL].[ifcSpecification].[TypeSpecificationAssignment] s on (t.TypeId=s.TypeId)
-	WHERE ParentTypeId is null and TypeGroupId=5 and s.SpecificationId=[cs].[SpecificationId]()
-
-  RETURN
-END
-GO
 
 CREATE FUNCTION [ifcSchema].[Type_Tree](@TypeId AS [ifcSchema].[Id], @InsertString as varchar(MAX)) 
     RETURNS @TREE TABLE
@@ -749,3 +722,11 @@ return (SELECT Max([ReleaseKey]) FROM [ifcSQL].[Release])
 END
 GO
 
+CREATE FUNCTION [cp].[ProjectGroupId]()
+RETURNS int AS
+BEGIN
+return (SELECT ifcUser.UserProjectGroupAssignment.ProjectGroupId
+FROM   ifcUser.[Login] INNER JOIN  ifcUser.UserProjectGroupAssignment ON ifcUser.[Login].UserId = ifcUser.UserProjectGroupAssignment.UserId
+WHERE (ifcUser.[Login].Login = SYSTEM_USER))
+END
+GO
