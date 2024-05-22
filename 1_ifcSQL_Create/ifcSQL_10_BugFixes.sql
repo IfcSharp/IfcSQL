@@ -1,0 +1,3 @@
+﻿USE [ifcSQL]
+GO
+

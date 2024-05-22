@@ -104,7 +104,7 @@ CREATE TYPE [ifcSchema].[Id] FROM [int] NULL
 GO
 CREATE TYPE [ifcSchema].[IndexableName] FROM [nvarchar](80) NULL
 GO
-CREATE TYPE [ifcType].[ifcBINARY] FROM [varbinary](max) NULL
+CREATE TYPE [ifcType].[ifcBINARY] FROM [nvarchar](max) NULL
 GO
 CREATE TYPE [ifcType].[ifcBOOLEAN] FROM [bit] NULL
 GO

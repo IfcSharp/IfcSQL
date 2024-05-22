@@ -2,9 +2,8 @@ REM Database-schema of ifcSQL, Copyright (c) 2021, Bernhard Simon Bock, Friedric
 REM This database runs on Microsoft SQL Server 2019 or higher, earlier versions don't support UTF-8
 REM The database was testet on Microsoft SQL Server 2019 EXPRESS and 2022 EXPRESS 
 
-SET SqlServer=YourSqlServername
 SET ifcSQL=ifcSQL
-if "%SqlServer%"=="YourSqlServername" GOTO UseYourServerName
+if "%SqlServer%"=="" GOTO UseYourServerName
 if "%ifcSQL%" NEQ "ifcSQL" echo "The DatabaseName should be ifcSQL"
 pause
 
@@ -93,6 +92,6 @@ pause
 
 goto end
 :UseYourServerName
-echo Please replace YourSqlServername with your SqlServername.
+echo Please set the enviroment variable "SqlServer" to your SqlServername.
 :end
 pause
