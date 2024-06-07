@@ -41,8 +41,7 @@ AS
 BEGIN
 SET NOCOUNT ON;
 DECLARE @MinProjectId AS INT; SET @MinProjectId = (SELECT Min([ProjectId]) FROM ifcProject.Project)
-UPDATE ifcProject.UserProject SET ProjectId=@MinProjectId
--- delete Entities here
+UPDATE ifcUser.UserProjectAssignment SET [ProjectId]=@MinProjectId
 DELETE FROM ifcProject.Project WHERE ProjectId=@DelProjectId
 END
 GO
